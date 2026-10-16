@@ -1,0 +1,5 @@
+Name,Anzeigename,Reibung,Stosszahl,StosszahlReferenz,StosszahlAbnahme,RollReibung,Rutschweite,bQuietschen,bStaub,bFussabdruecke,bHalle
+Hart,Hartplatz,0.58,0.82,8.27,0.008,0.6,0.35,True,False,False,False
+Sand,Sandplatz,0.74,0.85,8.27,0.008,1.2,1.30,False,True,True,False
+Rasen,Rasen,0.56,0.76,8.27,0.008,0.9,0.70,False,False,True,False
+Halle,Halle (Hart),0.55,0.80,8.27,0.008,0.5,0.35,True,False,False,True

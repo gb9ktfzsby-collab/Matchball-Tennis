@@ -1,0 +1,56 @@
+# Matchball Tennis – was NICHT ins Repository gehört (siehe README 0.0 und 20)
+
+# --- Von Unreal auf jedem PC neu erzeugt ---------------------------------------
+Unreal/Binaries/
+Unreal/Intermediate/
+Unreal/Saved/
+Unreal/DerivedDataCache/
+Unreal/Build/
+Unreal/.vs/
+Unreal/.idea/
+Unreal/Plugins/*/Binaries/
+Unreal/Plugins/*/Intermediate/
+*.sln
+*.suo
+*.VC.db
+*.VC.opendb
+*.code-workspace
+.vsconfig
+
+# --- Per Skript erzeugte Assets (Entscheidung 23.11, siehe Dokumente/Entscheidungen.md)
+# Content/ entsteht vollständig aus Tools/assets.ps1 und wird auf jedem PC neu erzeugt.
+# Die per Blender-Skript erzeugten .blend/.fbx sind ebenfalls Zwischenprodukte.
+# Wer sie doch versionieren will: die folgenden Zeilen löschen (LFS ist eingerichtet).
+Unreal/Content/
+Unreal/SourceAssets/_erzeugt/
+*.blend1
+
+# --- Zugangsdaten: nie committen (README 0.0a) ----------------------------------
+# EOS-Zugangsdaten liegen in einer eigenen, nicht versionierten Plattform-Config
+# (Vorlage: Unreal/Config/Windows/WindowsEngine.ini.vorlage)
+Unreal/Config/Windows/WindowsEngine.ini
+*.key
+*.pem
+*.pfx
+*-privat.*
+*_privat.*
+.env
+elevenlabs*.txt
+
+# --- Builds und Updates liegen außerhalb des Repositorys ------------------------
+_update/
+_alt/
+Updater/bin/
+Updater/obj/
+Unreal/Updater/bin/
+Unreal/Updater/obj/
+
+# --- Kern-Tests (CMake) ----------------------------------------------------------
+Unreal/Tools/KernTests/build*/
+
+# --- Allgemein -------------------------------------------------------------------
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+desktop.ini
