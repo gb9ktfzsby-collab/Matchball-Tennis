@@ -119,6 +119,66 @@ try {
         }
     }
 
+    # --- Hardware (Entscheidungen A1: Zielhardware) ----------------------------------------------
+    if ($istWindows) {
+        try {
+            $cpu = @(Get-CimInstance -ClassName Win32_Processor -ErrorAction Stop)[0]
+            Add-Ergebnis 'Prozessor' 'INFO' ('{0} ({1} Kerne, {2} Threads)' -f ([string]$cpu.Name).Trim(), $cpu.NumberOfCores, $cpu.NumberOfLogicalProcessors)
+        } catch {
+            Add-Ergebnis 'Prozessor' 'INFO' 'nicht ermittelbar'
+        }
+        try {
+            $ram = [double](Get-CimInstance -ClassName Win32_ComputerSystem -ErrorAction Stop).TotalPhysicalMemory
+            $ramText = Format-MBGroesse $ram
+            if ($ram -lt 15GB) {
+                Add-Ergebnis 'Arbeitsspeicher' 'WARNUNG' ($ramText + ' - der Unreal Editor braucht mindestens 16 GB, empfohlen 32 GB') @('Fuer den Unreal Editor mehr Arbeitsspeicher einplanen (empfohlen 32 GB).')
+            } elseif ($ram -lt 31GB) {
+                Add-Ergebnis 'Arbeitsspeicher' 'OK' ($ramText + ' (empfohlen fuer den Editor: 32 GB)')
+            } else {
+                Add-Ergebnis 'Arbeitsspeicher' 'OK' $ramText
+            }
+        } catch {
+            Add-Ergebnis 'Arbeitsspeicher' 'INFO' 'nicht ermittelbar'
+        }
+        # Grafikspeicher: Win32_VideoController.AdapterRAM ist auf 4 GB begrenzt, deshalb zuerst die Registry
+        # (HardwareInformation.qwMemorySize je Grafiktreiber) lesen
+        $vram = @{}
+        $klasse = 'HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}'
+        foreach ($schluessel in @(Get-ChildItem -LiteralPath $klasse -ErrorAction SilentlyContinue)) {
+            if ($schluessel.PSChildName -notmatch '^\d{4}$') { continue }
+            $eintrag = Get-ItemProperty -LiteralPath $schluessel.PSPath -ErrorAction SilentlyContinue
+            $name = [string](Get-MBEigenschaft $eintrag 'DriverDesc' '')
+            $speicher = Get-MBEigenschaft $eintrag 'HardwareInformation.qwMemorySize' $null
+            if ($null -eq $speicher) { $speicher = Get-MBEigenschaft $eintrag 'HardwareInformation.MemorySize' $null }
+            if ($speicher -is [byte[]]) {
+                if ($speicher.Length -ge 8) { $speicher = [System.BitConverter]::ToUInt64($speicher, 0) }
+                elseif ($speicher.Length -ge 4) { $speicher = [System.BitConverter]::ToUInt32($speicher, 0) }
+                else { $speicher = $null }
+            }
+            if ($name -and $null -ne $speicher) { $vram[$name] = [double]$speicher }
+        }
+        try {
+            $karten = @(Get-CimInstance -ClassName Win32_VideoController -ErrorAction Stop)
+            $groessterSpeicher = 0.0
+            foreach ($karte in $karten) {
+                $name = ([string]$karte.Name).Trim()
+                $speicher = 0.0
+                if ($vram.ContainsKey($name)) { $speicher = $vram[$name] } elseif ($null -ne $karte.AdapterRAM) { $speicher = [double]$karte.AdapterRAM }
+                if ($speicher -gt $groessterSpeicher) { $groessterSpeicher = $speicher }
+                $speicherText = 'Grafikspeicher unbekannt'
+                if ($speicher -gt 0) { $speicherText = Format-MBGroesse $speicher }
+                Add-Ergebnis 'Grafikkarte' 'INFO' ('{0}, {1}, Treiber {2}' -f $name, $speicherText, $karte.DriverVersion)
+            }
+            if ($karten.Count -eq 0) {
+                Add-Ergebnis 'Grafikkarte' 'WARNUNG' 'keine Grafikkarte gefunden'
+            } elseif ($groessterSpeicher -lt 3.5GB) {
+                Add-Ergebnis 'Grafikkarte' 'WARNUNG' 'vermutlich nur Onboard-Grafik (unter 4 GB Grafikspeicher) - der Unreal Editor laeuft damit sehr zaeh' @('Entwicklung moeglichst auf einem PC mit eigener Grafikkarte (Dokumente/Entscheidungen.md, A1).')
+            }
+        } catch {
+            Add-Ergebnis 'Grafikkarte' 'INFO' 'nicht ermittelbar'
+        }
+    }
+
     # --- Unreal Engine 5.8 -----------------------------------------------------------------------
     $kandidaten = @(Get-MBUnrealKandidaten)
     $ue = $null
@@ -239,9 +299,10 @@ try {
         # MSVC-Versionen der gewaehlten Installation gegen die Vorgaben der Engine (Engine/Config/Windows/Windows_SDK.json)
         if ($null -ne $vsGewaehlt) {
             $vsPfad = [string](Get-MBEigenschaft $vsGewaehlt 'installationPath' '')
-            $msvcOrdner = Join-MBPfad $vsPfad 'VC' 'Tools' 'MSVC'
+            $msvcOrdner = ''
+            if ($vsPfad) { $msvcOrdner = Join-MBPfad $vsPfad 'VC' 'Tools' 'MSVC' }
             $msvcVersionen = @()
-            if ($vsPfad -and (Test-Path -LiteralPath $msvcOrdner -PathType Container)) {
+            if ($msvcOrdner -and (Test-Path -LiteralPath $msvcOrdner -PathType Container)) {
                 $msvcVersionen = @(Get-ChildItem -LiteralPath $msvcOrdner -Directory | ForEach-Object { $_.Name } | Where-Object { $null -ne (ConvertTo-Version $_) })
             }
             $minimum = [string](Get-MBEigenschaft $sdkVorgaben 'MinimumVisualCppVersion' '')

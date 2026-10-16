@@ -557,11 +557,12 @@ def _dezimieren(obj, verhaeltnis):
     dg.update()
     neu = bpy.data.meshes.new_from_object(obj.evaluated_get(dg), preserve_all_data_layers=True, depsgraph=dg)
     alt = obj.data
+    name = alt.name
     obj.modifiers.remove(mod)
-    neu.name = alt.name
     obj.data = neu
     if alt.users == 0:
         bpy.data.meshes.remove(alt)
+    neu.name = name
 
 
 # ---------------------------------------------------------------------------------------------------------------------

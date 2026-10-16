@@ -78,7 +78,11 @@ function Invoke-KernTests {
     $quelle = $Pfade.KernTests
     $bauOrdner = Join-Path $Pfade.KernTests 'build-win'
 
-    $code = Start-MBProzess -Datei $cmake.CMake -Argumente @('-S', $quelle, '-B', $bauOrdner, '-DCMAKE_BUILD_TYPE=Release') `
+    $konfigArgumente = @('-S', $quelle, '-B', $bauOrdner)
+    # Unter Windows erzeugt CMake standardmaessig ein Visual-Studio-Projekt (Konfiguration ueber --config Release);
+    # CMAKE_BUILD_TYPE braucht nur ein Generator mit einer einzigen Konfiguration (Make/Ninja, z. B. in der Cloud).
+    if (-not (Test-MBWindows)) { $konfigArgumente += '-DCMAKE_BUILD_TYPE=Release' }
+    $code = Start-MBProzess -Datei $cmake.CMake -Argumente $konfigArgumente `
         -LogDatei (Join-Path $BerichtOrdner 'kern-1-konfigurieren.log') -Beschreibung 'CMake konfigurieren' -KeinAbbruch
     if ($code -ne 0) {
         Write-MBFehler ('CMake-Konfiguration fehlgeschlagen (Exit-Code {0}).' -f $code)
