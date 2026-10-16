@@ -1,0 +1,17 @@
+[
+  {
+    "skript": "wuerfel_spieler.py",
+    "argumente": [],
+    "beschreibung": "M0-Pipeline-Probe: Wuerfel-Spieler mit einfachem Skelett"
+  },
+  {
+    "skript": "schlaeger.py",
+    "argumente": [],
+    "beschreibung": "Schlaeger aus Vorgaben/Schlaeger/ (Rueckfall Vorgaben/racket.js): Massstab, Ursprung am Griffende, LODs"
+  },
+  {
+    "skript": "ball.py",
+    "argumente": [],
+    "beschreibung": "Tennisball mit Naht (README 3.4, 24.2)"
+  }
+]
