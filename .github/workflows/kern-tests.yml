@@ -11,6 +11,7 @@ on:
       - 'Unreal/Source/**'
       - 'Unreal/Data/**'
       - 'Unreal/Tools/KernTests/**'
+      - 'Unreal/Tools/pruefe_daten.py'
       - '.github/workflows/kern-tests.yml'
   pull_request:
   workflow_dispatch:
@@ -26,9 +27,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Data-Tables pruefen (CSV-Spalten = Unreal-Strukturen)
+        run: python Unreal/Tools/pruefe_daten.py
       - name: Konfigurieren
         run: cmake -S Unreal/Tools/KernTests -B Unreal/Tools/KernTests/build-ci -DCMAKE_BUILD_TYPE=Release
       - name: Bauen
         run: cmake --build Unreal/Tools/KernTests/build-ci --config Release
       - name: Testen
-        run: ctest --test-dir Unreal/Tools/KernTests/build-ci -C Release --output-on-failure
+        run: ctest --test-dir Unreal/Tools/KernTests/build-ci -C Release -V
