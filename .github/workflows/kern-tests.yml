@@ -12,6 +12,7 @@ on:
       - 'Unreal/Data/**'
       - 'Unreal/Tools/KernTests/**'
       - 'Unreal/Tools/pruefe_daten.py'
+      - 'Unreal/Tools/pruefe_karriere_daten.py'
       - '.github/workflows/kern-tests.yml'
   pull_request:
   workflow_dispatch:
@@ -32,6 +33,8 @@ jobs:
           python-version: '3.12'
       - name: Data-Tables pruefen (CSV-Spalten = Unreal-Strukturen)
         run: python Unreal/Tools/pruefe_daten.py
+      - name: Karriere-Daten pruefen (Punkte, Preisgeld, Kalender, Anlagen)
+        run: python Unreal/Tools/pruefe_karriere_daten.py
       - name: Konfigurieren
         run: cmake -S Unreal/Tools/KernTests -B Unreal/Tools/KernTests/build-ci -DCMAKE_BUILD_TYPE=Release
       - name: Bauen
