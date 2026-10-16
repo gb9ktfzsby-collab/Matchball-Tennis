@@ -24,10 +24,10 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           lfs: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - name: Data-Tables pruefen (CSV-Spalten = Unreal-Strukturen)
@@ -38,3 +38,11 @@ jobs:
         run: cmake --build Unreal/Tools/KernTests/build-ci --config Release
       - name: Testen
         run: ctest --test-dir Unreal/Tools/KernTests/build-ci -C Release -V
+      # Unreal fasst mehrere .cpp zu einer Einheit zusammen (Unity-Build). Hier alle Kern- und Testquellen in
+      # EINER Einheit: findet Namenskollisionen zwischen Dateien, die der normale Build nicht sieht.
+      - name: Unity-Build (wie Unreal) konfigurieren
+        run: cmake -S Unreal/Tools/KernTests -B Unreal/Tools/KernTests/build-unity -DCMAKE_BUILD_TYPE=Release -DCMAKE_UNITY_BUILD=ON -DCMAKE_UNITY_BUILD_BATCH_SIZE=0
+      - name: Unity-Build bauen
+        run: cmake --build Unreal/Tools/KernTests/build-unity --config Release
+      - name: Unity-Build testen
+        run: ctest --test-dir Unreal/Tools/KernTests/build-unity -C Release --output-on-failure

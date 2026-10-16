@@ -94,7 +94,7 @@ private:
 	void AktualisiereDarstellung(double Alpha, double Dt);
 	void ZeichneVorhersage() const;
 	void WerteAufsprungAus(const MB::FBallEreignis& Ereignis);
-	FName SchlagartZeile(EMBSchlagWunsch Wunsch, bool bPower, const MB::FVek3& Ball, const MB::FVek3& Spieler, bool bVorAufsprung) const;
+	FName SchlagartZeile(EMBSchlagWunsch Wunsch, bool bPower, const MB::FVek3& BallPosition, const MB::FVek3& Spieler, bool bVorAufsprung) const;
 
 	MB::FBallSimulation Simulation;
 	MB::FBallZustand VorherZustand;

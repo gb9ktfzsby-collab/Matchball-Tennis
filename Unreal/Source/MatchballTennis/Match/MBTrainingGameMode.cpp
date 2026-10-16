@@ -136,12 +136,8 @@ void AMBTrainingGameMode::ErzeugeWelt()
 	Simulation = MB::FBallSimulation(BallWerte, BelagWerte, NetzWerte);
 
 	// Licht, falls die Map keins hat (Rueckfall, z. B. wenn M_Graubox noch nicht erzeugt wurde)
-	bool bHatLicht = false;
-	for (TActorIterator<ADirectionalLight> Iterator(Welt); Iterator; ++Iterator)
-	{
-		bHatLicht = true;
-		break;
-	}
+	TActorIterator<ADirectionalLight> LichtSuche(Welt);
+	const bool bHatLicht = static_cast<bool>(LichtSuche);
 	if (!bHatLicht)
 	{
 		ADirectionalLight* Sonne = Welt->SpawnActor<ADirectionalLight>(FVector(0.0, 0.0, 2000.0), FRotator(-50.0, 35.0, 0.0));
@@ -159,7 +155,9 @@ void AMBTrainingGameMode::ErzeugeWelt()
 		{
 			USkyLightComponent* Himmelslicht = Himmel->GetLightComponent();
 			Himmelslicht->SetMobility(EComponentMobility::Movable);
+			// bRealTimeCapture wird beim Anlegen des Render-Proxys gelesen - deshalb neu anlegen lassen
 			Himmelslicht->bRealTimeCapture = true;
+			Himmelslicht->MarkRenderStateDirty();
 			Himmelslicht->RecaptureSky();
 		}
 	}

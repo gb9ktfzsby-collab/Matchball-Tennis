@@ -96,10 +96,18 @@ function Invoke-KernTests {
     $ctestLog = Join-Path $BerichtOrdner 'kern-3-ctest.log'
     $code = Start-MBProzess -Datei $cmake.CTest -Argumente @('-C', 'Release', '--output-on-failure') `
         -Arbeitsordner $bauOrdner -LogDatei $ctestLog -Beschreibung 'Kern-Tests ausfuehren (ctest)' -KeinAbbruch
-    # Zusammenfassung des Testprogramms ("N Tests, M Pruefungen, K fehlgeschlagen") aus dem Log holen
+    # Zusammenfassung des Testprogramms ("N Tests, M Pruefungen, K fehlgeschlagen") aus dem ctest-Protokoll holen
+    # (ctest zeigt die Ausgabe des Programms nur bei Fehlern, schreibt sie aber immer nach Testing/Temporary/LastTest*.log)
     $zusammenfassung = ''
-    if (Test-Path -LiteralPath $ctestLog -PathType Leaf) {
-        $treffer = Select-String -LiteralPath $ctestLog -Pattern '\d+ Tests, \d+ Pruefungen, \d+ fehlgeschlagen' | Select-Object -Last 1
+    $protokolle = @()
+    $temporaer = Join-MBPfad $bauOrdner 'Testing' 'Temporary'
+    if (Test-Path -LiteralPath $temporaer -PathType Container) {
+        $protokolle += @(Get-ChildItem -LiteralPath $temporaer -Filter 'LastTest*.log' -File | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { $_.FullName })
+    }
+    $protokolle += $ctestLog
+    foreach ($protokoll in $protokolle) {
+        if ($zusammenfassung -ne '' -or -not (Test-Path -LiteralPath $protokoll -PathType Leaf)) { continue }
+        $treffer = Select-String -LiteralPath $protokoll -Pattern '\d+ Tests, \d+ Pruefungen, \d+ fehlgeschlagen' | Select-Object -Last 1
         if ($null -ne $treffer) { $zusammenfassung = $treffer.Matches[0].Value }
     }
     if ($code -eq 0) {

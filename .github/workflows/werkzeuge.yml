@@ -1,0 +1,197 @@
+# Matchball Tennis - Werkzeug-Skripte pruefen (PowerShell, Batch, Python, Blender)
+#
+# Unreal gibt es auf GitHub-Runnern nicht. Geprueft wird alles, was ohne Unreal laeuft:
+#   * PowerShell-Skripte: nur ASCII, Parser von Windows PowerShell 5.1 und PowerShell 7, PSScriptAnalyzer (Fehler),
+#     echte Laeufe ohne Unreal (Kern-Tests ueber test.ps1, Installationspruefung, ElevenLabs-Liste,
+#     Nachbearbeitung von package.ps1 an einem nachgebauten Spielordner, saubere Abbrueche ohne Unreal)
+#   * Batch-Dateien: nur ASCII, CRLF, verweisen auf vorhandene Skripte
+#   * Python: Syntax aller Skripte
+
+name: Werkzeuge
+
+on:
+  push:
+    paths:
+      - 'Unreal/Tools/**'
+      - 'Unreal/blender/**'
+      - 'Unreal/*.bat'
+      - 'Unreal/Data/**'
+      - 'Unreal/Config/DefaultGame.ini'
+      - '.github/workflows/werkzeuge.yml'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  powershell:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          lfs: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Nur ASCII in .ps1/.psm1/.bat, CRLF in .bat
+        shell: python
+        run: |
+          import pathlib, sys
+          fehler = 0
+          for pfad in sorted(pathlib.Path('Unreal').rglob('*')):
+              if pfad.suffix.lower() not in ('.ps1', '.psm1', '.bat') or not pfad.is_file():
+                  continue
+              daten = pfad.read_bytes()
+              for nummer, zeile in enumerate(daten.split(b'\n'), start=1):
+                  if any(b > 127 for b in zeile):
+                      print(f'::error file={pfad},line={nummer}::Nicht-ASCII-Zeichen (PowerShell 5.1 liest BOM-lose Dateien als ANSI)')
+                      fehler += 1
+              if pfad.suffix.lower() == '.bat' and daten.count(b'\n') != daten.count(b'\r\n'):
+                  print(f'::error file={pfad}::Batch-Datei ohne durchgehende CRLF-Zeilenenden')
+                  fehler += 1
+              print(f'{pfad}: {len(daten)} Bytes')
+          sys.exit(1 if fehler else 0)
+
+      - name: Parser Windows PowerShell 5.1
+        shell: powershell
+        run: |
+          $fehler = 0
+          $dateien = Get-ChildItem -Path Unreal -Recurse -File -Include *.ps1, *.psm1
+          foreach ($datei in $dateien) {
+            $tokens = $null; $befunde = $null
+            [void][System.Management.Automation.Language.Parser]::ParseFile($datei.FullName, [ref]$tokens, [ref]$befunde)
+            foreach ($b in $befunde) { Write-Host ("::error file={0},line={1}::{2}" -f $datei.FullName, $b.Extent.StartLineNumber, $b.Message); $fehler++ }
+          }
+          Write-Host ("{0} Dateien geprueft (PowerShell {1})" -f $dateien.Count, $PSVersionTable.PSVersion)
+          if ($fehler -gt 0) { exit 1 }
+
+      - name: Parser PowerShell 7
+        shell: pwsh
+        run: |
+          $fehler = 0
+          $dateien = Get-ChildItem -Path Unreal -Recurse -File -Include *.ps1, *.psm1
+          foreach ($datei in $dateien) {
+            $tokens = $null; $befunde = $null
+            [void][System.Management.Automation.Language.Parser]::ParseFile($datei.FullName, [ref]$tokens, [ref]$befunde)
+            foreach ($b in $befunde) { Write-Host ("::error file={0},line={1}::{2}" -f $datei.FullName, $b.Extent.StartLineNumber, $b.Message); $fehler++ }
+          }
+          Write-Host ("{0} Dateien geprueft (PowerShell {1})" -f $dateien.Count, $PSVersionTable.PSVersion)
+          if ($fehler -gt 0) { exit 1 }
+
+      - name: PSScriptAnalyzer (Schweregrad Fehler)
+        shell: pwsh
+        run: |
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module -Name PSScriptAnalyzer -Scope CurrentUser -Force
+          $befunde = @(Invoke-ScriptAnalyzer -Path Unreal/Tools -Recurse -Severity Error)
+          $befunde | Format-Table -AutoSize -Property ScriptName, Line, RuleName, Message | Out-String -Width 300 | Write-Host
+          if ($befunde.Count -gt 0) { exit 1 }
+
+      - name: Batch-Dateien verweisen auf vorhandene Skripte
+        shell: pwsh
+        run: |
+          $fehler = 0
+          foreach ($bat in Get-ChildItem -Path Unreal -Filter *.bat -File) {
+            foreach ($treffer in [regex]::Matches((Get-Content -LiteralPath $bat.FullName -Raw), '%~dp0(Tools\\[^"]+\.ps1)')) {
+              $ziel = Join-Path 'Unreal' $treffer.Groups[1].Value
+              if (Test-Path -LiteralPath $ziel) { Write-Host ("{0} -> {1}" -f $bat.Name, $ziel) }
+              else { Write-Host ("::error file={0}::Verweis auf fehlendes Skript {1}" -f $bat.FullName, $ziel); $fehler++ }
+            }
+          }
+          if ($fehler -gt 0) { exit 1 }
+
+      - name: Kern-Tests ueber Tools/test.ps1 -NurKern (Windows PowerShell 5.1)
+        shell: powershell
+        run: |
+          powershell -NoProfile -ExecutionPolicy Bypass -File Unreal\Tools\test.ps1 -NurKern
+          exit $LASTEXITCODE
+
+      - name: Kern-Tests ueber Tools/test.ps1 -NurKern (PowerShell 7)
+        shell: pwsh
+        run: |
+          pwsh -NoProfile -File Unreal/Tools/test.ps1 -NurKern
+          exit $LASTEXITCODE
+
+      - name: Saubere Abbrueche ohne Unreal (keine unerwarteten Fehler)
+        shell: powershell
+        run: |
+          # stderr der Skripte soll nur mitgelesen werden, nicht den Schritt abbrechen
+          $ErrorActionPreference = 'Continue'
+          $fehler = 0
+          # Erwartet: Exit-Code ungleich 0 mit klarer Meldung, aber nie "Unerwarteter Fehler" (= Skriptfehler)
+          $faelle = @(
+            @{ Skript = 'pruefe_installation.ps1'; Argumente = @('-OhneDatei'); Erwartet = $null },
+            @{ Skript = 'build.ps1'; Argumente = @(); Erwartet = 'nicht gefunden' },
+            @{ Skript = 'assets.ps1'; Argumente = @('-NurImport'); Erwartet = 'nicht gefunden' },
+            @{ Skript = 'test.ps1'; Argumente = @('-NurUnreal'); Erwartet = 'nicht gefunden' },
+            @{ Skript = 'package.ps1'; Argumente = @(); Erwartet = 'nicht gefunden' },
+            @{ Skript = 'release.ps1'; Argumente = @(); Erwartet = 'Noch nicht umgesetzt' },
+            @{ Skript = 'elevenlabs-stimme.ps1'; Argumente = @('-Liste'); Erwartet = 'Fehlend' }
+          )
+          foreach ($fall in $faelle) {
+            $pfad = Join-Path 'Unreal\Tools' $fall.Skript
+            $ausgabe = (& powershell -NoProfile -ExecutionPolicy Bypass -File $pfad @($fall.Argumente) 2>&1 | Out-String)
+            $code = $LASTEXITCODE
+            Write-Host ("===== {0} {1} -> Exit-Code {2}" -f $fall.Skript, ($fall.Argumente -join ' '), $code)
+            Write-Host $ausgabe
+            if ($ausgabe -match 'Unerwarteter Fehler') { Write-Host ("::error::{0}: unerwarteter Fehler" -f $fall.Skript); $fehler++ }
+            if ($null -ne $fall.Erwartet -and $ausgabe -notmatch [regex]::Escape($fall.Erwartet)) { Write-Host ("::error::{0}: Meldung '{1}' fehlt" -f $fall.Skript, $fall.Erwartet); $fehler++ }
+          }
+          if ($fehler -gt 0) { exit 1 }
+          exit 0
+
+      - name: package.ps1 -NurNachbearbeitung an einem nachgebauten Spielordner
+        shell: powershell
+        run: |
+          $ziel = Join-Path $env:RUNNER_TEMP 'MatchballTennis-Build\1.0.0'
+          $spiel = Join-Path $ziel 'Windows'
+          $daten = Join-Path $spiel 'MatchballTennis\Content\Paks'
+          New-Item -ItemType Directory -Force -Path $daten | Out-Null
+          [System.IO.File]::WriteAllBytes((Join-Path $spiel 'MatchballTennis.exe'), [byte[]](1..200))
+          [System.IO.File]::WriteAllBytes((Join-Path $daten 'pakchunk0-Windows.pak'), [byte[]](1..100))
+          [System.IO.File]::WriteAllBytes((Join-Path $daten 'pakchunk0-Windows.utoc'), [byte[]](5..60))
+          [System.IO.File]::WriteAllBytes((Join-Path $daten 'pakchunk0-Windows.ucas'), [byte[]](9..90))
+          $zipOrdner = Join-Path $env:RUNNER_TEMP 'zip'
+          powershell -NoProfile -ExecutionPolicy Bypass -File Unreal\Tools\package.ps1 -NurNachbearbeitung -Ziel $ziel -Zip -ZipOrdner $zipOrdner
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          if (-not (Test-Path -LiteralPath (Join-Path $spiel 'Matchball Tennis.exe'))) { Write-Host '::error::Start-Programm nicht umbenannt'; exit 1 }
+          $build = Get-Content -LiteralPath (Join-Path $spiel 'build.json') -Raw | ConvertFrom-Json
+          $installiert = Get-Content -LiteralPath (Join-Path $spiel 'installiert.json') -Raw | ConvertFrom-Json
+          Write-Host ("build.json: version {0}, build {1}, datum {2}" -f $build.version, $build.build, $build.datum)
+          if ($build.build -notmatch '^[0-9a-f]{12}$') { Write-Host '::error::Build-Id hat nicht 12 Hex-Zeichen'; exit 1 }
+          if (@($installiert.dateien).Count -ne 5) { Write-Host ("::error::installiert.json listet {0} statt 5 Dateien" -f @($installiert.dateien).Count); exit 1 }
+          $zip = @(Get-ChildItem -LiteralPath $zipOrdner -Filter '*.zip')
+          if ($zip.Count -ne 1 -or $zip[0].Name -ne ("Matchball Tennis 1.0.0 ({0}).zip" -f $build.build)) { Write-Host '::error::ZIP fehlt oder falsch benannt'; exit 1 }
+          # Zweiter Lauf auf denselben Dateien muss dieselbe Build-Id liefern (reproduzierbar)
+          powershell -NoProfile -ExecutionPolicy Bypass -File Unreal\Tools\package.ps1 -NurNachbearbeitung -Ziel $ziel
+          $build2 = Get-Content -LiteralPath (Join-Path $spiel 'build.json') -Raw | ConvertFrom-Json
+          if ($build2.build -ne $build.build) { Write-Host '::error::Build-Id nicht reproduzierbar'; exit 1 }
+          Write-Host 'Nachbearbeitung, Build-Id und ZIP in Ordnung.'
+          exit 0
+
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          lfs: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - name: Syntax aller Python-Skripte
+        run: |
+          python - <<'EOF'
+          import pathlib, py_compile, sys
+          dateien = sorted(p for p in pathlib.Path('Unreal').rglob('*.py') if '__pycache__' not in p.parts)
+          fehler = 0
+          for p in dateien:
+              try:
+                  py_compile.compile(str(p), doraise=True, cfile='/dev/null')
+                  print('ok  ', p)
+              except py_compile.PyCompileError as e:
+                  print(f'::error file={p}::{e.msg}')
+                  fehler += 1
+          print(f'{len(dateien)} Dateien geprueft')
+          sys.exit(1 if fehler else 0)
+          EOF
+      - name: Data-Tables pruefen
+        run: python Unreal/Tools/pruefe_daten.py

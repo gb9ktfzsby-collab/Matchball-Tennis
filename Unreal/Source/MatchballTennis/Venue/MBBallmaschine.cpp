@@ -34,10 +34,13 @@ AMBBallmaschine::AMBBallmaschine()
 	Rohr->SetStaticMesh(Zylindermesh.Object);
 	Rohr->SetMaterial(0, Material.Object);
 	Rohr->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	// Eigene (absolute) Skalierung, damit das Rohr die Gehaeuse-Skalierung nicht erbt
+	// Eigene (absolute) Skalierung, damit das Rohr die Gehaeuse-Skalierung nicht erbt. Die relative Position
+	// wird dagegen mit der Gehaeuse-Skalierung (0,6 / 0,45 / 0,7) multipliziert: (33,3 | 0 | 64,3) ergibt
+	// 20 cm vor und 45 cm ueber der Gehaeusemitte. Pitch -80 Grad kippt die Zylinderachse (Z) nach vorne
+	// (+X, zum Platz), 10 Grad ueber die Waagrechte.
 	Rohr->SetUsingAbsoluteScale(true);
-	Rohr->SetRelativeLocation(FVector(-60.0, 0.0, 40.0));
-	Rohr->SetRelativeRotation(FRotator(80.0, 0.0, 0.0));
+	Rohr->SetRelativeLocation(FVector(33.3, 0.0, 64.3));
+	Rohr->SetRelativeRotation(FRotator(-80.0, 0.0, 0.0));
 	Rohr->SetRelativeScale3D(FVector(0.15, 0.15, 0.6));
 
 	Zufall.Starte(FPlatformTime::Cycles64());

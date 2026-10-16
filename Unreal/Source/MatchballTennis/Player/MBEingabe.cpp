@@ -15,14 +15,14 @@ UInputAction* UMBEingabe::NeueAktion(const TCHAR* Name, bool bAchse2D)
 	return Aktion;
 }
 
-void UMBEingabe::Taste(UInputAction* Aktion, const FKey& Taste)
+void UMBEingabe::Taste(UInputAction* Aktion, const FKey& Knopf)
 {
-	MatchKontext->MapKey(Aktion, Taste);
+	MatchKontext->MapKey(Aktion, Knopf);
 }
 
-void UMBEingabe::Richtungstaste(const FKey& Taste, bool bAufY, bool bNegativ)
+void UMBEingabe::Richtungstaste(const FKey& Knopf, bool bAufY, bool bNegativ)
 {
-	FEnhancedActionKeyMapping& Zuordnung = MatchKontext->MapKey(Bewegen, Taste);
+	FEnhancedActionKeyMapping& Zuordnung = MatchKontext->MapKey(Bewegen, Knopf);
 	if (bAufY)
 	{
 		// Tastenwert liegt auf X - auf Y umlegen

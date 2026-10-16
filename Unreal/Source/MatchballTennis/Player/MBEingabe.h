@@ -51,7 +51,7 @@ public:
 
 private:
 	UInputAction* NeueAktion(const TCHAR* Name, bool bAchse2D);
-	void Taste(UInputAction* Aktion, const FKey& Taste);
+	void Taste(UInputAction* Aktion, const FKey& Knopf);
 	// WASD/Pfeile/Steuerkreuz als 2D-Achse: Richtung (X, Y) je Taste
-	void Richtungstaste(const FKey& Taste, bool bAufY, bool bNegativ);
+	void Richtungstaste(const FKey& Knopf, bool bAufY, bool bNegativ);
 };

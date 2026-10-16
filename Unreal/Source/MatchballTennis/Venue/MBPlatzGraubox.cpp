@@ -22,15 +22,15 @@ namespace
 
 	FMBPlatzFarben MBPlatz_Farben(FName Belag)
 	{
-		if (Belag == TEXT("Sand"))
+		if (Belag == FName(TEXT("Sand")))
 		{
 			return {FLinearColor(0.55f, 0.22f, 0.10f), FLinearColor(0.55f, 0.22f, 0.10f), FLinearColor(0.25f, 0.30f, 0.20f)};
 		}
-		if (Belag == TEXT("Rasen"))
+		if (Belag == FName(TEXT("Rasen")))
 		{
 			return {FLinearColor(0.16f, 0.38f, 0.10f), FLinearColor(0.18f, 0.42f, 0.12f), FLinearColor(0.14f, 0.30f, 0.10f)};
 		}
-		if (Belag == TEXT("Halle"))
+		if (Belag == FName(TEXT("Halle")))
 		{
 			return {FLinearColor(0.04f, 0.09f, 0.25f), FLinearColor(0.03f, 0.04f, 0.08f), FLinearColor(0.02f, 0.02f, 0.03f)};
 		}
