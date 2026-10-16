@@ -7,6 +7,9 @@
 #include "Physics/Kern/MBSchlagberechnung.h"
 
 #include <algorithm>
+#include <map>
+#include <string>
+#include <vector>
 
 using namespace MB;
 
@@ -396,6 +399,91 @@ MB_TEST(AnsagenTiebreakUndSatz, "Ansagen.TiebreakSatzMatch")
 	}
 	MB_PRUEFE(Folge.bMatchGewonnen);
 	MB_PRUEFE(AnsageNachPunkt(Z, Folge).Bausteine == (std::vector<std::string>{"game_set_and_match", "@0", ",", "n7", "games_to", "n6"}));
+}
+
+namespace
+{
+	std::map<std::string, std::string> MBAnsageTest_Texte()
+	{
+		std::map<std::string, std::string> Texte;
+		for (const MBTest::FZeile& Zeile : MBTest::LiesCsv("ansagen.csv"))
+		{
+			Texte[MBTest::Text(Zeile, "Name")] = MBTest::Text(Zeile, "Text");
+		}
+		return Texte;
+	}
+
+	// Spieler gewinnt ein Spiel zu null; liefert die Punktfolge des letzten Punkts
+	FPunktFolge MBAnsageTest_Spiel(FZaehlweise& Z, int Spieler)
+	{
+		FPunktFolge Folge;
+		for (int Punkt = 0; Punkt < 4; ++Punkt)
+		{
+			Folge = Z.PunktFuer(Spieler);
+		}
+		return Folge;
+	}
+}
+
+MB_TEST(AnsagenSatzergebnisse, "Ansagen.SatzUndMatchErgebnis")
+{
+	const std::map<std::string, std::string> Texte = MBAnsageTest_Texte();
+	const std::string Namen[2] = {"Adler", "Falk"};
+
+	// 1 Spiel pro Satz (README 8 erlaubt 1-6): "one game", nicht "one games"
+	{
+		FZaehlRegeln Regeln;
+		Regeln.SpieleProSatz = 1;
+		Regeln.Gewinnsaetze = 2;
+		FZaehlweise Z(Regeln, 0);
+		FPunktFolge Folge = MBAnsageTest_Spiel(Z, 0);
+		MB_PRUEFE(Folge.bSatzGewonnen);
+		MB_PRUEFE_GLEICH(AnsageNachPunkt(Z, Folge).Text(Texte, Namen), std::string("Game and first set Adler, one game to love"));
+		Folge = MBAnsageTest_Spiel(Z, 0);
+		MB_PRUEFE(Folge.bMatchGewonnen);
+		MB_PRUEFE_GLEICH(AnsageNachPunkt(Z, Folge).Text(Texte, Namen), std::string("Game, set and match Adler, two sets to love, one love, one love"));
+	}
+	{
+		FZaehlRegeln Regeln;
+		Regeln.SpieleProSatz = 1;
+		Regeln.Gewinnsaetze = 1;
+		FZaehlweise Z(Regeln, 0);
+		const FPunktFolge Folge = MBAnsageTest_Spiel(Z, 1);
+		MB_PRUEFE(Folge.bMatchGewonnen);
+		MB_PRUEFE_GLEICH(AnsageNachPunkt(Z, Folge).Text(Texte, Namen), std::string("Game, set and match Falk, one game to love"));
+	}
+	// Satzergebnisse in der Match-Ansage: 0 Spiele = "love" (wie auf der Tour: "six four, six love")
+	{
+		FZaehlRegeln Regeln;
+		Regeln.Gewinnsaetze = 2;
+		FZaehlweise Z(Regeln, 0);
+		FPunktFolge Folge;
+		for (int Spiel = 0; Spiel < 10; ++Spiel)
+		{
+			Folge = MBAnsageTest_Spiel(Z, Spiel < 8 ? Spiel % 2 : 0);   // 4:4, dann zweimal Adler -> 6:4
+		}
+		MB_PRUEFE(Folge.bSatzGewonnen);
+		MB_PRUEFE_GLEICH(AnsageNachPunkt(Z, Folge).Text(Texte, Namen), std::string("Game and first set Adler, six games to four"));
+		for (int Spiel = 0; Spiel < 6; ++Spiel)
+		{
+			Folge = MBAnsageTest_Spiel(Z, 0);
+		}
+		MB_PRUEFE(Folge.bMatchGewonnen);
+		MB_PRUEFE_GLEICH(AnsageNachPunkt(Z, Folge).Text(Texte, Namen), std::string("Game, set and match Adler, two sets to love, six four, six love"));
+	}
+	// Verlorener Satz des Siegers ohne Spielgewinn: "love six"
+	{
+		FZaehlRegeln Regeln;
+		Regeln.Gewinnsaetze = 2;
+		FZaehlweise Z(Regeln, 0);
+		FPunktFolge Folge;
+		for (int Spiel = 0; Spiel < 18; ++Spiel)
+		{
+			Folge = MBAnsageTest_Spiel(Z, Spiel < 6 ? 1 : 0);   // 0:6, 6:0, 6:0
+		}
+		MB_PRUEFE(Folge.bMatchGewonnen);
+		MB_PRUEFE_GLEICH(AnsageNachPunkt(Z, Folge).Text(Texte, Namen), std::string("Game, set and match Adler, two sets to one, love six, six love, six love"));
+	}
 }
 
 namespace

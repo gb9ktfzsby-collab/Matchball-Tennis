@@ -6,8 +6,9 @@ Alle Blender-Assets entstehen per Python-Skript, ohne Oberfläche, und können j
 blender/
   lib/mb_gemeinsam.py        gemeinsame Hilfen: Argumente, Szene, Einheiten, FBX-Export, meta.json, Vorschau, LODs
   scripts/wuerfel_spieler.py M0-Probe: Skelett mit UE5-Knochennamen, Quader-Körper, Testanimation
-  scripts/schlaeger.py       Platzhalter-Schläger + eigenes Schlägermodell (Vorgaben/Schlaeger/ bzw. Vorgaben/racket.js)
-  scripts/ball.py            Tennisball mit Naht, Filz, Formschlüssel „gestaucht“, LODs
+  scripts/schlaeger.py       Platzhalter-Schläger + eigenes Schlägermodell (Vorgaben/Schlaeger/ bzw. Vorgaben/racket.js),
+                             Saitenbett als gebackene Alpha-Fläche
+  scripts/ball.py            Tennisball mit Naht, Filz, Fussel-Hülle (Shell), Formschlüssel „gestaucht“, LODs
   skripte.json               Reihenfolge und Argumente für Tools/assets.ps1
   anims/                     später: Posen als Daten (README 4.1)
 ```
@@ -40,8 +41,10 @@ Gemeinsame Argumente (alle Skripte; `--help` zeigt die skripteigenen):
 Reihenfolge: Befehlszeile vor Umgebungsvariable vor Standardwert.
 
 Skripteigene Argumente: `wuerfel_spieler.py --groesse 1.85 --pose A|T --fps 30 --dauer 2`,
-`schlaeger.py --quelle <datei> --nur-platzhalter --laenge 0.6858 --lods 1,0.5,0.25,0.12 --texturen-einbetten`,
-`ball.py --durchmesser 0.067 --naht-b 0.30 --stauchung 0.30 --lods 1,0.5,0.25,0.12`.
+`schlaeger.py --quelle <datei> --nur-platzhalter --laenge 0.6858 --lods 1,0.5,0.25,0.12 --texturen-einbetten
+--saiten-aufloesung 2048 --saiten-samples 4 --saiten-geometrie`,
+`ball.py --durchmesser 0.067 --naht-b 0.30 --stauchung 0.30 --lods 1,0.5,0.25,0.12 --fussel-hoehe 0.0007
+--fussel-unterteilung 16 --fussel-lods 2 --fussel-dichte 0.42 --fussel-aufloesung 2048`.
 
 ### Ohne Blender-Programm testen (bpy als Python-Modul)
 
@@ -64,8 +67,8 @@ SourceAssets/_vorschau/            <Asset>_vorne|seitlich|dreiviertel|nah.png, 1
 | Skript | Bereich | Assets | Ziel in Unreal |
 |---|---|---|---|
 | `wuerfel_spieler.py` | `Characters/Wuerfel` | `SK_WuerfelSpieler` (Skelett `SKEL_WuerfelSpieler`), `A_Wuerfel_Bereitschaft` | `/Game/Characters/Wuerfel` |
-| `schlaeger.py` | `Equipment/Schlaeger` | `SM_SchlaegerPlatzhalter`, `SM_Schlaeger` (+ `_LOD1..3`), `T_Schlaeger_*`, `T_SchlaegerSaiten` | `/Game/Equipment/Schlaeger` |
-| `ball.py` | `Equipment/Ball` | `SM_Ball` (+ `_LOD1..3`) | `/Game/Equipment/Ball` |
+| `schlaeger.py` | `Equipment/Schlaeger` | `SM_SchlaegerPlatzhalter`, `SM_Schlaeger` (+ `_LOD1..3`), `T_Schlaeger_*`, `T_Schlaeger_Saiten_BaseColor`, `T_Schlaeger_Saiten_Normal`, `T_SchlaegerPlatzhalter_Saiten_BaseColor` | `/Game/Equipment/Schlaeger` |
+| `ball.py` | `Equipment/Ball` | `SM_Ball` (+ `_LOD1..3`), `T_Ball_Fussel_Maske` | `/Game/Equipment/Ball` |
 
 Zusätzliche Bilder: `A_Wuerfel_Bereitschaft_bogen.png` (4 Zeitpunkte, vorne und seitlich),
 `SM_Ball_gestaucht.png`, `SM_Schlaeger_LOD3_vorne.png`.
@@ -76,14 +79,42 @@ Jedes Asset hat `<Asset>.meta.json` (UTF-8, nur ASCII). Wichtige Felder:
 
 - Kurzform: `name`, `typ` (`static` | `skeletal` | `animation`), `ziel` (Unreal-Ordner), `datei` (Haupt-FBX)
 - `quelle`, `lizenz`, `datum`, `skript`, `blender`, `parameter`
-- `dateien`: `fbx`, `lods` (Liste mit `stufe`, `datei`, `verhaeltnis`, `dreiecke`), `texturen` (Datei, Rolle,
-  sRGB ja/nein, Hinweise), `blend`, `vorschau` (relativ zur Ausgabewurzel)
+- `dateien`: `fbx`, `lods` (Liste mit `stufe`, `datei`, `verhaeltnis`, `dreiecke`), `texturen` (Datei, Rolle
+  `BaseColor` | `Alpha` | `Normal` | …, Kanäle, sRGB ja/nein, Material, Hinweise), `blend`, `vorschau` (relativ zur
+  Ausgabewurzel). Steckt die Bedeckung im Alphakanal der BaseColor, steht dieselbe Datei zweimal da: einmal mit
+  Rolle `BaseColor` (`kanaele` RGB), einmal mit Rolle `Alpha` (`kanaele` A, Hinweis „Opacity Mask“).
 - `materialien` (Slot-Reihenfolge, Grundfarbe sRGB, Rauheit, Metall, Alpha, zweiseitig), `masse`, `dreiecke`
 - `export`: alle FBX-Einstellungen, `achsen`: Umrechnung Blender → Unreal
 - Skelett: `skelett`, `skelett_ziel`, `knochen`, `anhaenge_punkte`; Animation: `frames`, `skelett_mesh`, `pruefung`
 
 LOD-Stufen liegen als eigene Dateien `<Asset>_LOD<n>.fbx` vor (der Blender-FBX-Export kennt keine LOD-Gruppen);
 der Import hängt sie per `import_lod` an. Der Import liest die `*.meta.json`, nicht einfach alle `*.fbx`.
+
+## Alpha-Materialien: Saitenbett und Fussel-Rand (README 3.4)
+
+**Saitenbett (`schlaeger.py`).** Beide Schläger haben eine ebene Saitenfläche in der Saitenebene (Normale −Y, U entlang
++X, V entlang +Z) mit gleich aufgebautem Material: `M_<Stamm>_Saiten`, BaseColor-Textur `T_<Stamm>_Saiten_BaseColor.png`
+(RGB = Saitenfarbe, A = Bedeckung), beim eigenen Modell zusätzlich `T_Schlaeger_Saiten_Normal.png`.
+
+- Platzhalter: kachelnde 64-px-Textur (1 UV-Einheit = 1 Saitenfeld), Material `M_SchlaegerPlatzhalter_Saiten`.
+- Eigenes Modell: Die Saitengeometrie wird erkannt (dünne Inseln in der Saitenebene, die in die Kopföffnung ragen;
+  Innenkontur per Strahl gegen den Rahmen – Kriterium und Zahlen in `saitenteile_finden()` und in der meta.json unter
+  `parameter.aufbereitung.saitenbett`), mit Cycles *selected-to-active* auf 2048 × 2048 gebacken (Bedeckung binär je
+  Texel, Farbe inkl. Logo, Normale im Tangentenraum) und danach entfernt. Ösenköpfe zählen mit; Saitenschlaufen in der
+  äußeren Rahmenrille bleiben Geometrie. Alle vier LODs nutzen dieselbe Fläche (Slot 1), nur der Rahmen wird dezimiert.
+  Beim Modell aus `racket.js`: LOD0 115 912 → 84 050 Dreiecke.
+
+**Fussel-Rand (`ball.py`).** Zweite Hülle 0,7 mm über dem Filz im selben Mesh, Materialslot 2 `M_Ball_Fussel`,
+Opazität aus `T_Ball_Fussel_Maske.png` (8 Bit grau, linear; selbst erzeugtes 3D-Rauschen, an der Naht 0). Nur LOD0
+(3 072 Dreiecke Hülle) und LOD1 (1 728); der Formschlüssel „gestaucht“ nimmt die Hülle mit. Begründung im Kopf von
+`ball.py`.
+
+**Einstellungen in Unreal** (auch in der meta.json unter `saiten.unreal`, `fussel.unreal`, `materialien[].unreal`):
+
+| Material | Blend Mode | Opacity Mask | Clip | Two Sided | Texturen |
+|---|---|---|---|---|---|
+| `M_Schlaeger_Saiten`, `M_SchlaegerPlatzhalter_Saiten` | Masked | A von `…_Saiten_BaseColor` | 0,5 | ja | BaseColor sRGB an; Normal: Normalmap, sRGB aus, Flip Green Channel |
+| `M_Ball_Fussel` | Masked | R von `T_Ball_Fussel_Maske` | 0,5 | ja | Maske: Masks/Grayscale, sRGB aus |
 
 ## Achsen und Maßstab
 
@@ -119,6 +150,10 @@ Die Vorschau nutzt die Farbdarstellung „Standard“, damit Materialfarben unve
 - Die Metall/Rauheit-Textur des eigenen Schlägers steht nicht in der FBX (der Exporter folgt nur direkten
   Verbindungen); sie liegt als `T_Schlaeger_MetallicRoughness.jpg` daneben und ist in der meta.json aufgeführt.
   Die Normal-Map ist im OpenGL-Format (in Unreal „Flip Green Channel“).
-- Die Saiten des eigenen Modells sind Geometrie (kein Alpha-Material nötig); der Platzhalter nutzt eine Alpha-Fläche.
+- Saitenbett und Fussel-Rand sind maskierte Materialien (siehe unten). Von hinten erscheint das Logo auf den Saiten
+  gespiegelt – wie beim Originalmodell, bei dem es als Farbe auf den Saiten liegt.
+- Die Fussel-Hülle macht die Bounds des Balls 1,4 mm größer (0,0684 statt 0,067 m); den Ball nicht aus den Bounds
+  skalieren. Masked-Materialien verlieren mit den Mip-Stufen Deckung – Saiten und Fussel werden in der Ferne dünner
+  bzw. verschwinden (gewollt; ab LOD2 hat der Ball keine Hülle mehr).
 - Der Würfel-Spieler hat nur die Knochen des UE5-Mannequins, die M0 braucht (ohne `neck_02`, Finger, Zehen,
   `ik_*` und Twist-Knochen).

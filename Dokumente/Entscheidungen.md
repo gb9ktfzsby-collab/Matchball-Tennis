@@ -76,7 +76,8 @@ nach ein, zwei kompletten Neuerzeugungen voll – und jeder `git pull` auf dem z
 **Deshalb (README erlaubt das ausdrücklich):** `Unreal/Content/` und die per Skript erzeugten
 `.blend`/`.fbx` (`Unreal/SourceAssets/_erzeugt/`) stehen in `.gitignore` und werden auf jedem PC mit
 `Tools\assets.ps1` neu erzeugt. Versioniert (über LFS) werden nur echte Quellen: `Vorgaben/`, deine
-Tonaufnahmen und die Vorschaubilder – voraussichtlich deutlich unter 1 GB. Wer `Content/` doch im
+Tonaufnahmen (laut `Dokumente/Aufnahmeliste.md` ca. 1–1,7 GB), die Schiedsrichter-Bausteine (wenige MB) und die
+Vorschaubilder – zusammen voraussichtlich 1,5–2 GB, also deutlich unter dem Kontingent. Wer `Content/` doch im
 Repository haben will: die zwei Zeilen in `.gitignore` löschen.
 
 ---

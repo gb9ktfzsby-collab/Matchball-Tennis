@@ -121,7 +121,7 @@ def saiten_material(name, bild_farbe, bild_normal=None, kachelnd=False, hinweis=
     mb.material_alpha(mat)
     if hasattr(mat, "use_backface_culling"):
         mat.use_backface_culling = False
-    unreal = {"blend_mode": "Masked", "opacity_mask": "Alphakanal von %s" % bild_farbe.name,
+    unreal = {"blend_mode": "Masked", "opacity_mask": "Alphakanal von %s" % Path(bild_farbe.filepath_raw).name,
               "opacity_mask_clip_value": OPACITY_CLIP, "two_sided": True}
     mb.material_info_setzen(mat, textur=Path(bild_farbe.filepath_raw).name, alpha="Opacity Mask (maskiert)",
                             unreal=unreal)
@@ -136,7 +136,7 @@ def saiten_textur_eintraege(material, farbe_datei, normal_datei=None, groesse_px
     if kachelnd:
         gemeinsam["adressierung"] = "Wrap (kachelnd, 1 UV-Einheit = 1 Saitenfeld)"
     else:
-        gemeinsam["adressierung"] = "Clamp (UV 0..1 = Saitenfläche)"
+        gemeinsam["adressierung"] = "Clamp (UV 0..1 = Saitenflaeche)"
     eintraege = [
         dict(gemeinsam, datei=farbe_datei, rolle="BaseColor", kanaele="RGB", srgb=True,
              hinweis="RGB = Grundfarbe der Saiten (auch unter transparenten Texeln aufgefuellt), A = Bedeckung"),

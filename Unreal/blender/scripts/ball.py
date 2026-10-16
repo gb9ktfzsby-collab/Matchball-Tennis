@@ -25,15 +25,16 @@ Aufbau:
     hellen Fussel-Rand. In Unreal baut das Import-Skript ein eigenes Material; meta.json enthält die Werte.
   * Fussel-Rand (README 3.4, "Shell-Fur oder Opazitäts-Rand"): eine zweite Hülle 0,7 mm über dem Filz im
     selben Mesh, Materialslot 2 M_Ball_Fussel (Blend Mode Masked, Opacity Mask = T_Ball_Fussel_Maske, zweiseitig).
-    Die Maske ist selbst erzeugtes 3D-Rauschen (Fusselflecken von 0,1-0,3 mm), entlang der Naht auf 0 (dort ist
+    Die Maske ist selbst erzeugtes 3D-Rauschen (Fusselflecken von 0,1-0,2 mm), entlang der Naht auf 0 (dort ist
     Gummi, kein Filz). Begründung der Wahl:
       - Eine Hülle funktioniert in Unreal ohne Sondertechnik: normales Static Mesh, maskiertes Material, kein
         Translucency-Sortieren, keine Vertex-Farben, kein Niagara. Ein reiner Opazitäts-Rand (Fresnel, transluzent)
         bräuchte ein durchscheinendes Material oder eine zweite Ballgeometrie und liefert keine echte Kontur-
         Unschärfe; mehrere Shells wären dichter, kosten aber je Lage ein weiteres Mal die Hülle.
-      - Die Hülle ist eine eigene, gröbere Quad-Sphere (16 statt 32 Vierecke je Würfelkante = 3 072 Dreiecke,
-        Abweichung der Sehnen von der Kugel unter 0,05 mm): Sie braucht weder die Rille noch die Naht-Details
-        und kostet so nur +17 % auf LOD0.
+      - Die Hülle ist eine eigene, gröbere Quad-Sphere (LOD0 16 statt 32 Vierecke je Würfelkante = 3 072
+        Dreiecke, LOD1 12 = 1 728; Abweichung der Sehnen von der Kugel unter 0,1 mm): Sie braucht weder die Rille
+        noch die Naht-Details und kostet so nur +17 % auf LOD0. Die LODs werden aus Filz + Naht dezimiert (wie
+        ohne Hülle) und bekommen die Hülle danach angehängt - sie verbraucht kein Decimate-Budget.
       - Nur LOD0 und LOD1 tragen die Hülle (--fussel-lods 2): Ab LOD2 ist der Ball wenige Pixel groß, ein
         0,7-mm-Rand wäre unsichtbar und kostet nur Überzeichnung (Masked = zweiter Durchgang durch die Fläche).
     Die Hülle gehört zum selben Mesh - der Formschlüssel "gestaucht" und jede Skalierung der Ball-Komponente
@@ -66,7 +67,7 @@ UNREAL_ZIEL = "/Game/Equipment/Ball"
 
 OPTIC_YELLOW_SRGB = (0.80, 0.95, 0.12)
 NAHT_SRGB = (0.93, 0.93, 0.89)
-FUSSEL_SRGB = (0.86, 0.96, 0.36)   # Fasern etwas heller und weniger gesättigt als der Filz
+FUSSEL_SRGB = (0.84, 0.96, 0.27)   # Fasern etwas heller und weniger gesättigt als der Filz
 SLOT_FILZ, SLOT_NAHT, SLOT_FUSSEL = 0, 1, 2
 #: Unreal: Opacity Mask Clip Value der Fussel-Hülle (Maske hat weiche 0..1-Kanten, Schwelle in der Mitte)
 OPACITY_CLIP = 0.5
@@ -253,7 +254,7 @@ def atlas_richtungen(breite, hoehe):
 def fussel_maske(args, radius):
     """Opazitätsmaske der Fussel-Hülle im UV-Atlas der Hülle: Werte 0..1 (H x W, unterste Zeile zuerst).
 
-    Fusselflecken = zwei Lagen 3D-Wertrauschen (Zellen 0,22 mm und 0,09 mm), so geschwellt, dass
+    Fusselflecken = zwei Lagen 3D-Wertrauschen (Zellen 0,16 mm und 0,07 mm), so geschwellt, dass
     args.fussel_dichte der Fläche bedeckt ist; weiche Kante (Opacity Mask Clip 0,5 liegt auf der Schwelle).
     Entlang der Naht (Gummi) fällt die Dichte auf 0: frei bis 1,6 mm vom Nahtmittel, voll ab 2,8 mm."""
     breite = int(args.fussel_aufloesung)
@@ -269,12 +270,13 @@ def fussel_maske(args, radius):
     x = np.clip((abstand - frei) / (voll - frei), 0.0, 1.0)
     dichte = x * x * (3.0 - 2.0 * x)
     p = richt * (radius + args.fussel_hoehe)
-    rauschen = 0.62 * wertrauschen(p, 0.00022, 1) + 0.38 * wertrauschen(p, 0.00009, 2)
+    zellen = (0.00016, 0.00007)  # feine Koernung; die feinere Lage liegt nahe der Texelgroesse (~0,08 mm)
+    rauschen = 0.62 * wertrauschen(p, zellen[0], 1) + 0.38 * wertrauschen(p, zellen[1], 2)
     schwelle = float(np.quantile(rauschen[dichte > 0.999], 1.0 - args.fussel_dichte))
     kante = 0.035
     wert = np.clip((rauschen - schwelle) / kante + 0.5, 0.0, 1.0) * dichte
     anteil = float((wert >= OPACITY_CLIP).mean())
-    return wert.reshape(hoehe, breite), {"aufloesung_px": [breite, hoehe], "rauschzellen_m": [0.00022, 0.00009],
+    return wert.reshape(hoehe, breite), {"aufloesung_px": [breite, hoehe], "rauschzellen_m": list(zellen),
                                          "schwelle": round(schwelle, 4), "kante": kante,
                                          "naht_frei_bis_m": frei, "naht_voll_ab_m": voll,
                                          "bedeckter_anteil_atlas": round(anteil, 4)}
@@ -296,13 +298,17 @@ def png_grau_schreiben(pfad, werte):
 
 def fussel_material(bild):
     """M_Ball_Fussel: Fasern der Hülle, Alpha = Maske (Unreal: Blend Mode Masked, Opacity Mask, Two Sided)."""
-    mat = mb.material_grundfarbe("M_Ball_Fussel", FUSSEL_SRGB, rauheit=1.0, sheen=1.0, sheen_rauheit=0.3,
-                                 zweiseitig=True, hinweis="Fussel-Huelle 0,7 mm ueber dem Filz, Opazitaet aus Maske")
+    mat = mb.material_grundfarbe("M_Ball_Fussel", FUSSEL_SRGB, rauheit=1.0, spiegelung=0.0, sheen=0.6,
+                                 sheen_rauheit=0.4, sheen_farbe="Grundfarbe", zweiseitig=True,
+                                 hinweis="Fussel-Huelle 0,7 mm ueber dem Filz, Opazitaet aus Maske; Fasern streuen "
+                                         "diffus (Specular 0), sonst wirkt der Rand unter streifendem Blick glasig")
     baum = mat.node_tree
     bsdf = mb.principled(mat)
-    for namen, wert in ((("Sheen Weight", "Sheen"), 1.0), (("Sheen Roughness",), 0.3)):
+    farbe_lin = [mb.srgb_zu_linear(c) for c in FUSSEL_SRGB] + [1.0]
+    for namen, wert in ((("Sheen Weight", "Sheen"), 0.6), (("Sheen Roughness",), 0.4),
+                        (("Specular IOR Level", "Specular"), 0.0), (("Sheen Tint",), farbe_lin)):
         e = mb.eingang(bsdf, *namen)
-        if e is not None:
+        if e is not None and (e.type == 'RGBA') == isinstance(wert, list):  # Sheen Tint ist erst ab 4.0 eine Farbe
             e.default_value = wert
     tex = baum.nodes.new("ShaderNodeTexImage")
     tex.image = bild
@@ -318,17 +324,19 @@ def fussel_material(bild):
     return mat
 
 
-def huelle_entfernen(obj):
-    """Entfernt die Fussel-Hülle (Materialslot SLOT_FUSSEL) aus einer LOD-Stufe samt Materialslot."""
+def huelle_unterteilung(args, stufe):
+    """Vierecke je Würfelkante der Hülle in einer LOD-Stufe: LOD0 args.fussel_unterteilung, je Stufe x0,75."""
+    return max(8, int(round(args.fussel_unterteilung * 0.75 ** stufe)))
+
+
+def huelle_anhaengen(ziel, radius, unterteilung, material):
+    """Baut eine Fussel-Hülle (Quad-Sphere, Materialslot hinter Filz und Naht) und hängt sie an ziel an."""
     bm = bmesh.new()
-    bm.from_mesh(obj.data)
-    weg = [f for f in bm.faces if f.material_index == SLOT_FUSSEL]
-    bmesh.ops.delete(bm, geom=weg, context='FACES')
-    bm.to_mesh(obj.data)
-    bm.free()
-    if len(obj.data.materials) > SLOT_FUSSEL:
-        obj.data.materials.pop(index=SLOT_FUSSEL)
-    obj.data.update()
+    uv = bm.loops.layers.uv.new(ziel.data.uv_layers.active.name if ziel.data.uv_layers.active else "UVMap")
+    kugel_bauen(bm, radius, unterteilung, uv, material_index=0)
+    huelle = mb.objekt_aus_bmesh(ziel.name + "_Huelle", bm, [material])
+    mb.glatt_nach_winkel(huelle.data, 75.0)
+    return mb.objekte_vereinen([ziel, huelle], ziel.name)  # Material landet in Slot SLOT_FUSSEL
 
 
 def gestaucht_hinzufuegen(obj, stauchung):
@@ -379,23 +387,23 @@ def main(args):
     rille_eindruecken(bm, radius, punkte, tiefe=args.rille_tiefe, breite=args.rille_breite)
     nahtrohr_bauen(bm, radius, punkte, tangenten, rohr_radius=args.naht_radius, versenkt=args.naht_versenkt,
                    ring=8, uv=uv, material_index=SLOT_NAHT)
-    if fussel_info is not None:
-        # Hülle zuletzt (Rille und Naht betreffen nur den Filz); gleiche UV-Schicht mit demselben 3x2-Atlas-
-        # Schema, aber eigenes Material und eigene Textur (T_Ball_Fussel_Maske)
-        kugel_bauen(bm, radius + args.fussel_hoehe, args.fussel_unterteilung, uv, material_index=SLOT_FUSSEL)
-    ball = mb.objekt_aus_bmesh(ASSET, bm, materialien)
+    ball = mb.objekt_aus_bmesh(ASSET, bm, materialien[:2])
     mb.glatt_nach_winkel(ball.data, 75.0)
-    mb.log("Ball: Durchmesser %.4f m (Filz), %d Dreiecke" % (args.durchmesser, mb.dreiecke(ball)))
+    mb.log("Ball: Durchmesser %.4f m (Filz), %d Dreiecke Filz + Naht" % (args.durchmesser, mb.dreiecke(ball)))
 
+    # LODs aus Filz + Naht (Verhältnisse wie bisher); danach bekommen die ersten args.fussel_lods Stufen eine
+    # eigene Hülle (gleiches 3x2-Atlas-Schema, eigenes Material und eigene Textur T_Ball_Fussel_Maske)
     stufen = mb.lods_erzeugen(ball, args.lods, basisname=ASSET, glatt_winkel=75.0)
-    if fussel_info is not None:
-        for st in stufen:
-            if st["stufe"] >= args.fussel_lods:
-                huelle_entfernen(st["objekt"])
-                st["dreiecke"] = mb.dreiecke(st["objekt"])
-            st["fussel_huelle"] = st["stufe"] < args.fussel_lods
-            mb.log("LOD%d: %d Dreiecke, Fussel-Huelle %s" % (st["stufe"], st["dreiecke"],
-                                                              "ja" if st["fussel_huelle"] else "nein"))
+    for st in stufen:
+        st["fussel_huelle"] = fussel_info is not None and st["stufe"] < args.fussel_lods
+        if st["fussel_huelle"]:
+            n = huelle_unterteilung(args, st["stufe"])
+            st["objekt"] = huelle_anhaengen(st["objekt"], radius + args.fussel_hoehe, n, materialien[SLOT_FUSSEL])
+            st["dreiecke"] = mb.dreiecke(st["objekt"])
+            st["huelle_unterteilung"] = n
+        mb.log("LOD%d %s: %d Dreiecke, Fussel-Huelle %s" % (st["stufe"], st["objekt"].name, st["dreiecke"],
+                                                             "ja" if st["fussel_huelle"] else "nein"))
+    ball = stufen[0]["objekt"]
     stauch = None
     for st in stufen:
         stauch = gestaucht_hinzufuegen(st["objekt"], args.stauchung)  # nimmt die Hülle mit (selbes Mesh)
@@ -444,6 +452,8 @@ def main(args):
                    "fussel": None if fussel_info is None else dict(
                        fussel_info, huelle_hoehe_m=args.fussel_hoehe, huelle_unterteilung=args.fussel_unterteilung,
                        lods_mit_huelle=args.fussel_lods, dichte=args.fussel_dichte,
+                       huelle_unterteilung_je_lod=[huelle_unterteilung(args, i) for i in range(min(args.fussel_lods,
+                                                                                                   len(args.lods)))],
                        durchmesser_huelle_m=round(args.durchmesser + 2.0 * args.fussel_hoehe, 5),
                        materialslot=SLOT_FUSSEL)},
         dateien={"fbx": fbx.name, "lods": lod_dateien, "texturen": textur_eintraege,
@@ -452,7 +462,8 @@ def main(args):
         materialien=mb.materialien_info([ball]),
         fussel=None if fussel_info is None else {
             "verfahren": "Shell: zweite Huelle %.1f mm ueber dem Filz im selben Mesh (Materialslot %d M_Ball_Fussel, "
-                         "maskiert), nur LOD0..LOD%d" % (args.fussel_hoehe * 1e3, SLOT_FUSSEL, args.fussel_lods - 1),
+                         "maskiert), nur LOD0..LOD%d" % (args.fussel_hoehe * 1e3, SLOT_FUSSEL,
+                                                          min(args.fussel_lods, len(args.lods)) - 1),
             "unreal": {"material": "M_Ball_Fussel", "blend_mode": "Masked",
                        "opacity_mask": "R von T_Ball_Fussel_Maske.png", "opacity_mask_clip_value": OPACITY_CLIP,
                        "two_sided": True},
@@ -492,10 +503,11 @@ def parser():
     p.add_argument("--fussel-hoehe", type=float, default=0.0007,
                    help="Abstand der Fussel-Huelle ueber dem Filz in m (0.0005-0.001, Standard 0.0007)")
     p.add_argument("--fussel-unterteilung", type=int, default=16,
-                   help="Vierecke je Wuerfelkante der Fussel-Huelle (Standard 16 = 3072 Dreiecke)")
+                   help="Vierecke je Wuerfelkante der Fussel-Huelle auf LOD0 (Standard 16 = 3072 Dreiecke; "
+                        "je weitere Stufe x0.75)")
     p.add_argument("--fussel-lods", type=int, default=2,
                    help="Anzahl LOD-Stufen mit Fussel-Huelle ab LOD0 (Standard 2 = LOD0 und LOD1, 0 = keine Huelle)")
-    p.add_argument("--fussel-dichte", type=float, default=0.38, help="bedeckter Anteil der Huelle (Standard 0.38)")
+    p.add_argument("--fussel-dichte", type=float, default=0.42, help="bedeckter Anteil der Huelle (Standard 0.42)")
     p.add_argument("--fussel-aufloesung", type=int, default=2048,
                    help="Breite der Fussel-Maske in Pixel (Hoehe = Breite/2, Standard 2048)")
     return p

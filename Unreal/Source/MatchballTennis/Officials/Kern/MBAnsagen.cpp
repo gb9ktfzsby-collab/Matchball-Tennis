@@ -163,9 +163,9 @@ namespace MB
 			const std::vector<FSatzErgebnis>& Saetze = Z.GetAbgeschlosseneSaetze();
 			if (Z.GetRegeln().Gewinnsaetze == 1 && Saetze.size() == 1 && !Saetze.front().bMatchTiebreak)
 			{
-				// Ein Satz: "six games to four"
+				// Ein Satz: "six games to four" (bei 1 Spiel pro Satz: "one game to love")
 				Ansage.Bausteine.push_back(ZahlBaustein(Saetze.front().Spiele[Sieger]));
-				Ansage.Bausteine.push_back("games_to");
+				Ansage.Bausteine.push_back(Saetze.front().Spiele[Sieger] == 1 ? "game_to" : "games_to");
 				Ansage.Bausteine.push_back(MBAnsagen_SpielZahl(Saetze.front().Spiele[Verlierer]));
 				return Ansage;
 			}
@@ -185,8 +185,9 @@ namespace MB
 					Ansage.Bausteine.push_back(ZahlBaustein(Satz.TiebreakPunkte[Verlierer]));
 					continue;
 				}
-				Ansage.Bausteine.push_back(ZahlBaustein(Satz.Spiele[Sieger]));
-				Ansage.Bausteine.push_back(ZahlBaustein(Satz.Spiele[Verlierer]));
+				// Satzergebnisse wie auf der Tour: "six four, six love, love six" (0 Spiele = "love", "zero" nur im Tiebreak)
+				Ansage.Bausteine.push_back(MBAnsagen_SpielZahl(Satz.Spiele[Sieger]));
+				Ansage.Bausteine.push_back(MBAnsagen_SpielZahl(Satz.Spiele[Verlierer]));
 			}
 			return Ansage;
 		}
@@ -203,7 +204,7 @@ namespace MB
 			}
 			Ansage.Bausteine.push_back(",");
 			Ansage.Bausteine.push_back(ZahlBaustein(Satz.Spiele[Gewinner]));
-			Ansage.Bausteine.push_back("games_to");
+			Ansage.Bausteine.push_back(Satz.Spiele[Gewinner] == 1 ? "game_to" : "games_to");
 			Ansage.Bausteine.push_back(MBAnsagen_SpielZahl(Satz.Spiele[1 - Gewinner]));
 			if (Folge.bMatchTiebreakBeginnt)
 			{
