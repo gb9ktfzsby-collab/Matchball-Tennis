@@ -23,6 +23,10 @@
 .PARAMETER NurImport
     Nur den Unreal-Import ausfuehren (Blender-Ergebnisse muessen schon vorhanden sein).
 
+.PARAMETER NeueMap
+    Die Map /Game/Maps/M_Graubox neu aufbauen, auch wenn sie schon existiert (import_alles.py --neu).
+    Ohne diesen Schalter wird sie nur angelegt, wenn sie fehlt.
+
 .PARAMETER Skript
     Nur dieses eine Blender-Skript ausfuehren (z. B. schlaeger oder schlaeger.py); der Import folgt,
     ausser mit -NurBlender.
@@ -36,6 +40,7 @@
 param(
     [switch] $NurBlender,
     [switch] $NurImport,
+    [switch] $NeueMap,
     [string] $Skript = ''
 )
 
@@ -174,10 +179,13 @@ try {
         Assert-MBEditorGebaut
         $unrealLog = Join-Path $logOrdner 'unreal-import.log'
         $konsolenLog = Join-Path $logOrdner 'unreal-import-konsole.log'
+        # Argumente fuer das Python-Skript stehen im -script-Wert hinter dem Pfad (Pfad ohne Leerzeichen, README 0.0)
+        $skriptWert = $importSkript.Replace('\', '/')
+        if ($NeueMap) { $skriptWert += ' --neu' }
         $argumente = @(
             $pfade.UProject,
             '-run=pythonscript',
-            (Format-MBSchalter 'script' $importSkript.Replace('\', '/')),
+            (Format-MBSchalter 'script' $skriptWert),
             '-unattended', '-nosplash', '-nullrhi',
             '-stdout', '-FullStdOutLogOutput', '-UTF8Output',
             (Format-MBSchalter 'abslog' $unrealLog))

@@ -1,0 +1,61 @@
+Name,Turnier,Stadt,Land,Woche,Wochen,Datum,Stufe,Wertung,Belag,Halle,Feld,Qualifikation,Gesetzte,Anlage,Preisgeld_USD,Tageszeit_Nacht,CourtPace,Belagfarbe,Auslauffarbe,Akzentfarbe
+ATP_Brisbane,Brisbane International,Brisbane,AUS,2,1,2026-01-04,ATP250,ATP_250_32,Hart,False,32,16,8,Arena,576000,True,42,#2B6FB8,#1D4E86,#F2A900
+ATP_HongKong,Hong Kong Tennis Open,Hongkong,HKG,2,1,2026-01-05,ATP250,ATP_250_28,Hart,False,28,16,8,Arena,546000,True,41,#2F64A8,#3B7A4F,#C8102E
+ATP_Adelaide,Adelaide International,Adelaide,AUS,3,1,2026-01-12,ATP250,ATP_250_28,Hart,False,28,16,8,Arena,546000,True,41,#2B6FB8,#3B7A55,#D7263D
+ATP_Auckland,Auckland Open,Auckland,NZL,3,1,2026-01-12,ATP250,ATP_250_28,Hart,False,28,16,8,Arena,546000,False,40,#2F64A8,#2F6B45,#1D3557
+ATP_AustralianOpen,Australian Open,Melbourne,AUS,4,2,2026-01-18,GrandSlam,ATP_GS_128,Hart,False,128,128,32,Arena,28700000,True,40,#2A7FD0,#1C5A9E,#0091D2
+ATP_Montpellier,Open Occitanie,Montpellier,FRA,6,1,2026-02-02,ATP250,ATP_250_28,Halle,True,28,16,8,ArenaIndoor,546000,False,47,#24518F,#12233D,#E4572E
+ATP_Dallas,Dallas Open,Dallas,USA,7,1,2026-02-09,ATP500,ATP_500_32,Halle,True,32,16,8,ArenaIndoor,2200000,False,46,#2A4F8F,#101C30,#1D3557
+ATP_Rotterdam,Rotterdam Open,Rotterdam,NED,7,1,2026-02-09,ATP500,ATP_500_32,Halle,True,32,16,8,ArenaIndoor,2300000,False,46,#24518F,#152E52,#F28C28
+ATP_BuenosAires,Argentina Open,Buenos Aires,ARG,7,1,2026-02-09,ATP250,ATP_250_28,Sand,False,28,16,8,CourtCentral,546000,True,20,#B4562F,#B4562F,#75AADB
+ATP_Doha,Qatar Open,Doha,QAT,8,1,2026-02-16,ATP500,ATP_500_32,Hart,False,32,16,8,Arena,2210000,True,42,#2E5FA3,#6B2D4F,#8A1538
+ATP_Rio,Rio Open,Rio de Janeiro,BRA,8,1,2026-02-16,ATP500,ATP_500_32,Sand,False,32,16,8,CourtCentral,1950000,True,20,#B4562F,#B4562F,#009C3B
+ATP_DelrayBeach,Delray Beach Open,Delray Beach,USA,8,1,2026-02-16,ATP250,ATP_250_28,Hart,False,28,16,8,Arena,546000,True,41,#2B6CB0,#2F6B45,#F28C28
+ATP_Acapulco,Abierto Mexicano,Acapulco,MEX,9,1,2026-02-23,ATP500,ATP_500_32,Hart,False,32,16,8,Arena,2300000,True,41,#2B5FA8,#5C3C8C,#E94E1B
+ATP_Dubai,Dubai Tennis Championships,Dubai,UAE,9,1,2026-02-23,ATP500,ATP_500_32,Hart,False,32,16,8,Arena,2580000,True,44,#2A5DA8,#1B3F73,#B08D57
+ATP_Santiago,Chile Open,Santiago,CHI,9,1,2026-02-23,ATP250,ATP_250_28,Sand,False,28,16,8,CourtCentral,546000,True,22,#B4562F,#B4562F,#D52B1E
+ATP_IndianWells,Indian Wells Open,Indian Wells,USA,10,2,2026-03-04,Masters1000,ATP_M1000_96,Hart,False,96,48,32,Arena,7300000,True,33,#3D5F99,#5B4A8B,#6A4C93
+ATP_Miami,Miami Open,Miami,USA,12,2,2026-03-18,Masters1000,ATP_M1000_96,Hart,False,96,48,32,Arena,7300000,True,38,#2B6CB0,#1F8C8C,#00A6A6
+ATP_Houston,U.S. Men's Clay Court Championship,Houston,USA,14,1,2026-03-30,ATP250,ATP_250_28,Sand,False,28,16,8,CourtCentral,546000,False,23,#5E7F5A,#4E6B4A,#1D3557
+ATP_Marrakesch,Grand Prix Hassan II,Marrakesch,MAR,14,1,2026-03-30,ATP250,ATP_250_28,Sand,False,28,16,8,CourtCentral,546000,False,21,#B4562F,#B4562F,#C1272D
+ATP_Bukarest,Bukarest Open,Bukarest,ROU,14,1,2026-03-30,ATP250,ATP_250_28,Sand,False,28,16,8,CourtCentral,546000,False,20,#B4562F,#B4562F,#002B7F
+ATP_MonteCarlo,Monte-Carlo Masters,Monte-Carlo,MON,15,1,2026-04-05,Masters1000,ATP_M1000_56,Sand,False,56,28,16,CourtCentral,5710000,False,19,#B95B33,#B95B33,#C8102E
+ATP_Barcelona,Barcelona Open,Barcelona,ESP,16,1,2026-04-13,ATP500,ATP_500_48,Sand,False,48,24,16,CourtCentral,2600000,False,20,#B4562F,#B4562F,#1E5631
+ATP_Muenchen,München Open,München,GER,16,1,2026-04-13,ATP500,ATP_500_32,Sand,False,32,16,8,CourtCentral,2200000,False,23,#B4562F,#B4562F,#1F5AA6
+ATP_Madrid,Madrid Open,Madrid,ESP,17,2,2026-04-22,Masters1000,ATP_M1000_96,Sand,False,96,48,32,CourtCentral,7300000,True,26,#B85A33,#B85A33,#D7263D
+ATP_Rom,Internazionali d'Italia,Rom,ITA,19,2,2026-05-06,Masters1000,ATP_M1000_96,Sand,False,96,48,32,CourtCentral,7000000,True,21,#B95B33,#B95B33,#1E5631
+ATP_Hamburg,Hamburg Open,Hamburg,GER,21,1,2026-05-17,ATP500,ATP_500_32,Sand,False,32,16,8,CourtCentral,2300000,True,21,#B4562F,#B4562F,#C8102E
+ATP_Genf,Geneva Open,Genf,SUI,21,1,2026-05-17,ATP250,ATP_250_28,Sand,False,28,16,8,CourtCentral,546000,False,22,#B4562F,#B4562F,#D52B1E
+ATP_RolandGarros,Roland Garros,Paris,FRA,22,2,2026-05-24,GrandSlam,ATP_GS_128,Sand,False,128,128,32,CourtCentral,26900000,True,22,#C1643A,#C1643A,#1E5631
+ATP_Stuttgart,Stuttgart Open,Stuttgart,GER,24,1,2026-06-08,ATP250,ATP_250_28,Rasen,False,28,16,8,CentreCourt,546000,False,50,#5A8F3D,#5A8F3D,#1F4D2B
+ATP_sHertogenbosch,'s-Hertogenbosch Open,'s-Hertogenbosch,NED,24,1,2026-06-08,ATP250,ATP_250_28,Rasen,False,28,16,8,CentreCourt,546000,False,51,#5A8F3D,#5A8F3D,#F28C28
+ATP_Halle,Halle Open,Halle (Westf.),GER,25,1,2026-06-15,ATP500,ATP_500_32,Rasen,False,32,16,8,CentreCourt,2300000,False,53,#55893A,#55893A,#1F4D2B
+ATP_Queens,Queen's Club Championships,London,GBR,25,1,2026-06-15,ATP500,ATP_500_32,Rasen,False,32,16,8,CentreCourt,2400000,False,50,#55893A,#55893A,#1D3557
+ATP_Mallorca,Mallorca Championships,Mallorca,ESP,26,1,2026-06-21,ATP250,ATP_250_28,Rasen,False,28,16,8,CentreCourt,546000,False,50,#5A8F3D,#5A8F3D,#2A9D8F
+ATP_Eastbourne,Eastbourne International,Eastbourne,GBR,26,1,2026-06-21,ATP250,ATP_250_28,Rasen,False,28,16,8,CentreCourt,546000,False,50,#5A8F3D,#5A8F3D,#1D3557
+ATP_Wimbledon,Wimbledon,London,GBR,27,2,2026-06-29,GrandSlam,ATP_GS_128,Rasen,False,128,128,32,CentreCourt,29700000,False,50,#55893A,#55893A,#4B2C6F
+ATP_Bastad,Swedish Open,Båstad,SWE,29,1,2026-07-13,ATP250,ATP_250_28,Sand,False,28,16,8,CourtCentral,546000,False,21,#B4562F,#B4562F,#006AA7
+ATP_Gstaad,Swiss Open Gstaad,Gstaad,SUI,29,1,2026-07-13,ATP250,ATP_250_28,Sand,False,28,16,8,CourtCentral,546000,False,27,#B4562F,#B4562F,#D52B1E
+ATP_Umag,Croatia Open,Umag,CRO,29,1,2026-07-13,ATP250,ATP_250_28,Sand,False,28,16,8,CourtCentral,546000,True,20,#B4562F,#B4562F,#171796
+ATP_Kitzbuehel,Kitzbühel Open,Kitzbühel,AUT,30,1,2026-07-20,ATP250,ATP_250_28,Sand,False,28,16,8,CourtCentral,546000,False,26,#B4562F,#B4562F,#C8102E
+ATP_Estoril,Estoril Open,Estoril,POR,30,1,2026-07-20,ATP250,ATP_250_28,Sand,False,28,16,8,CourtCentral,546000,False,21,#B4562F,#B4562F,#006600
+ATP_Washington,Washington Open,Washington,USA,31,1,2026-07-27,ATP500,ATP_500_48,Hart,False,48,24,16,Arena,2100000,True,41,#2E64A3,#3C7A4D,#1C2C5B
+ATP_LosCabos,Los Cabos Open,Los Cabos,MEX,31,1,2026-07-27,ATP250,ATP_250_28,Hart,False,28,16,8,Arena,546000,True,40,#2D6AA8,#3E7F8C,#F28C28
+ATP_Montreal,Canadian Open,Montréal,CAN,32,1,2026-08-02,Masters1000,ATP_M1000_96,Hart,False,96,48,32,Arena,7000000,True,41,#2F6EB5,#1E4E87,#C8102E
+ATP_Cincinnati,Cincinnati Open,Cincinnati,USA,33,2,2026-08-13,Masters1000,ATP_M1000_96,Hart,False,96,48,32,Arena,7290000,True,44,#2F67A8,#3F7F4F,#1D3557
+ATP_WinstonSalem,Winston-Salem Open,Winston-Salem,USA,35,1,2026-08-23,ATP250,ATP_250_48,Hart,False,48,16,16,Arena,642000,True,42,#2F64A8,#3C7A4D,#6A1B9A
+ATP_USOpen,US Open,New York,USA,36,2,2026-08-30,GrandSlam,ATP_GS_128,Hart,False,128,128,32,Arena,35600000,True,42,#3C638E,#6C935C,#1C2C5B
+ATP_Chengdu,Chengdu Open,Chengdu,CHN,39,1,2026-09-23,ATP250,ATP_250_28,Hart,False,28,16,8,Arena,546000,True,40,#2F64A8,#3B7A55,#2A9D8F
+ATP_Hangzhou,Hangzhou Open,Hangzhou,CHN,39,1,2026-09-23,ATP250,ATP_250_28,Hart,False,28,16,8,Arena,546000,True,41,#2F64A8,#2C3E7A,#3A86FF
+ATP_Tokio,Japan Open,Tokio,JPN,40,1,2026-09-30,ATP500,ATP_500_32,Hart,False,32,16,8,Arena,2200000,False,42,#3B7F55,#2C5E40,#D7263D
+ATP_Peking,China Open,Peking,CHN,40,1,2026-09-30,ATP500,ATP_500_32,Hart,False,32,16,8,Arena,3190000,True,40,#2C66A6,#3B7A55,#C8102E
+ATP_Shanghai,Shanghai Masters,Shanghai,CHN,41,2,2026-10-07,Masters1000,ATP_M1000_96,Hart,False,96,48,32,Arena,7300000,True,45,#5B3E8F,#2C3E7A,#7B2D8E
+ATP_Almaty,Almaty Open,Almaty,KAZ,43,1,2026-10-19,ATP250,ATP_250_28,Halle,True,28,16,8,ArenaIndoor,546000,False,46,#24518F,#12233D,#00AFCA
+ATP_Bruessel,European Open,Brüssel,BEL,43,1,2026-10-19,ATP250,ATP_250_28,Halle,True,28,16,8,ArenaIndoor,546000,False,46,#24518F,#12233D,#FFD100
+ATP_Lyon,Lyon Open,Lyon,FRA,43,1,2026-10-19,ATP250,ATP_250_28,Halle,True,28,16,8,ArenaIndoor,546000,False,46,#24518F,#12233D,#C8102E
+ATP_Basel,Swiss Indoors,Basel,SUI,44,1,2026-10-26,ATP500,ATP_500_32,Halle,True,32,16,8,ArenaIndoor,2400000,False,47,#2554A5,#18325F,#D7263D
+ATP_Wien,Vienna Open,Wien,AUT,44,1,2026-10-26,ATP500,ATP_500_32,Halle,True,32,16,8,ArenaIndoor,2400000,False,45,#2B5BA0,#8E2B2B,#C8102E
+ATP_Paris,Paris Masters,Paris,FRA,45,1,2026-11-02,Masters1000,ATP_M1000_56,Halle,True,56,28,16,ArenaIndoor,5700000,False,47,#1F3B73,#0F1B33,#0055A4
+ATP_Stockholm,Stockholm Open,Stockholm,SWE,46,1,2026-11-08,ATP250,ATP_250_28,Halle,True,28,16,8,ArenaIndoor,546000,False,46,#24518F,#12233D,#FFCD00
+ATP_Athen,Hellenic Championship,Athen,GRE,46,1,2026-11-08,ATP250,ATP_250_28,Halle,True,28,16,8,ArenaIndoor,546000,False,46,#24518F,#12233D,#0D5EAF
+ATP_Finals,ATP Finals,Turin,ITA,47,1,2026-11-15,Finals,ATP_FINALS_8,Halle,True,8,0,8,Finals,12140000,False,44,#1A1F2B,#0B0D12,#C9A227

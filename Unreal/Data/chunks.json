@@ -1,0 +1,96 @@
+{
+  "beschreibung": "Feste Aufteilung der Spielinhalte in Pakete (Chunks) fuer das Update-System, README 19.4.1. Chunk-IDs aendern sich NIE: neue Inhalte bekommen eine neue ID oder kommen in den passenden bestehenden Chunk. Tools/Python/setze_chunks.py legt je Ordner ein PrimaryAssetLabel PAL_Chunk<ID> an (Rules.ChunkId = id, CookRule = AlwaysCook, alle Assets im Ordner und in Unterordnern). Ordner, die hier nicht stehen (z. B. /Game/FX), landen im Chunk der Assets, die sie verwenden; was nirgends zugeordnet ist, kommt in Chunk 0. Die Programmdatei (.exe) ist ein eigener Download-Teil.",
+  "version": 1,
+  "chunks": [
+    {
+      "id": 0,
+      "name": "Kern",
+      "beschreibung": "Engine-Grundlagen, Menues, UI, Daten-Tabellen (Spieler, Turniere, Texte), Maps",
+      "ordner": ["/Game/Data", "/Game/UI", "/Game/Maps"]
+    },
+    {
+      "id": 1,
+      "name": "Spielerfiguren",
+      "beschreibung": "Spielerfiguren (Koerper, Haare, Gesichter)",
+      "ordner": ["/Game/Characters"]
+    },
+    {
+      "id": 2,
+      "name": "Ausruestung",
+      "beschreibung": "Kleidung, Schuhe, Schlaeger, Ball",
+      "ordner": ["/Game/Clothing", "/Game/Equipment"]
+    },
+    {
+      "id": 3,
+      "name": "Animationen",
+      "beschreibung": "Animationen",
+      "ordner": ["/Game/Animations"]
+    },
+    {
+      "id": 4,
+      "name": "Ton",
+      "beschreibung": "Ton: Effekte, Publikum",
+      "ordner": ["/Game/Audio/Effekte", "/Game/Audio/Publikum"]
+    },
+    {
+      "id": 5,
+      "name": "Stimmen",
+      "beschreibung": "Schiedsrichter- und Stadionsprecher-Stimme",
+      "ordner": ["/Game/Audio/Umpire", "/Game/Audio/Stadionsprecher"]
+    },
+    {
+      "id": 10,
+      "name": "Hartplatz-Arena",
+      "beschreibung": "Anlage Hartplatz-Arena",
+      "ordner": ["/Game/Venues/HartplatzArena"]
+    },
+    {
+      "id": 11,
+      "name": "Court Central",
+      "beschreibung": "Anlage Sandplatz Court Central",
+      "ordner": ["/Game/Venues/CourtCentral"]
+    },
+    {
+      "id": 12,
+      "name": "Centre Court",
+      "beschreibung": "Anlage Rasen Centre Court",
+      "ordner": ["/Game/Venues/CentreCourt"]
+    },
+    {
+      "id": 13,
+      "name": "Training",
+      "beschreibung": "Trainingsanlage (draussen)",
+      "ordner": ["/Game/Venues/Training"]
+    },
+    {
+      "id": 14,
+      "name": "Arena Indoor",
+      "beschreibung": "Halle Arena Indoor",
+      "ordner": ["/Game/Venues/ArenaIndoor"]
+    },
+    {
+      "id": 15,
+      "name": "Finals",
+      "beschreibung": "Halle Finals",
+      "ordner": ["/Game/Venues/Finals"]
+    },
+    {
+      "id": 16,
+      "name": "Turnierhalle",
+      "beschreibung": "Halle Turnierhalle (klein, auch Hallen-Sandplatz)",
+      "ordner": ["/Game/Venues/Turnierhalle"]
+    },
+    {
+      "id": 17,
+      "name": "Trainingshalle",
+      "beschreibung": "Halle Trainingshalle",
+      "ordner": ["/Game/Venues/Trainingshalle"]
+    },
+    {
+      "id": 20,
+      "name": "Anlagen-Bausteine",
+      "beschreibung": "Gemeinsame Anlagen-Bausteine (Tribuenen, Netz, Stuehle, Publikum-Figuren)",
+      "ordner": ["/Game/Venues/Bausteine"]
+    }
+  ]
+}

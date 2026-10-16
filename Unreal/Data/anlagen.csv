@@ -1,0 +1,22 @@
+Name,Anlage,Variante,Anzeigename,Einsatz,Belag,Belagfarbe,Auslauffarbe,Tribuenenart,Tribuenenfarbe,Reihen,Seiten,Dach,Publikum_Min,Publikum_Max,Anzeigetafel,Baeume,Fahnen,Efeu,Flutlicht,Zaun,Bandenfarbe,Auslauf_Hinten,Auslauf_Seite,Chunk,CourtPace
+Arena_ITF,Arena,ITF,Arena - Außenplatz,ITF;Quali,Hart,#3C7A4A,#8C3B2E,Stahlrohr,#7A8088,3,1,Keins,0,200,Kipptafel,False,False,False,False,True,#1F3A5F,6.40,3.66,10,40
+Arena_Challenger,Arena,Challenger,Arena - Nebenplatz,Challenger;WTA125;TourFrueh,Hart,#2F64A8,#2F6B45,Stahlrohr,#2A5DA8,10,2,Keins,500,3000,Elektronisch,False,False,False,True,False,#1F3A5F,6.40,3.66,10,40
+Arena_Tour,Arena,Tour,Arena - Hauptplatz,TourSpaet,Hart,#1F4E8C,#2F6B45,Schalensitze,#1F5AA6,25,4,Teil,5000,15000,Videowand,False,False,False,True,False,#13294B,8.23,4.57,10,40
+Arena_GrandSlam,Arena,GrandSlam,Arena - Stadion,GrandSlam;Finals,Hart,#1F4E8C,#2F6B45,Schalensitze,#1F5AA6,45,4,Voll,15000,23000,Videowand,False,True,False,True,False,#13294B,8.23,4.57,10,40
+CourtCentral_ITF,CourtCentral,ITF,Court Central - Außenplatz,ITF;Quali,Sand,#B4562F,#B4562F,Holzbaenke,#8B6B4A,2,1,Keins,0,200,Kipptafel,True,False,False,False,True,#1E5631,6.40,3.66,11,20
+CourtCentral_Challenger,CourtCentral,Challenger,Court Central - Nebenplatz,Challenger;WTA125;TourFrueh,Sand,#B4562F,#B4562F,Steinstufen,#D9D2C3,8,2,Keins,500,3000,Elektronisch,True,True,False,True,False,#1E5631,6.40,3.66,11,20
+CourtCentral_Tour,CourtCentral,Tour,Court Central - Hauptplatz,TourSpaet,Sand,#B8582F,#B8582F,Steinstufen,#DCD5C5,22,4,Keins,5000,15000,Videowand,True,True,False,True,False,#1E5631,8.23,4.57,11,20
+CourtCentral_GrandSlam,CourtCentral,GrandSlam,Court Central - Stadion,GrandSlam;Finals,Sand,#C1643A,#C1643A,Steinstufen,#E0D9C9,40,4,Voll,15000,16000,Videowand,True,True,False,True,False,#1E5631,8.23,4.57,11,20
+CentreCourt_ITF,CentreCourt,ITF,Centre Court - Außenplatz,ITF;Quali,Rasen,#5A8F3D,#5A8F3D,Holzbaenke,#2F4F2F,3,1,Keins,0,200,Kipptafel,True,False,False,False,True,#1F4D2B,6.40,3.66,12,51
+CentreCourt_Challenger,CentreCourt,Challenger,Centre Court - Nebenplatz,Challenger;WTA125;TourFrueh,Rasen,#5A8F3D,#5A8F3D,Schalensitze,#234F2E,10,2,Keins,500,3000,Elektronisch,True,False,True,False,False,#1F4D2B,6.40,3.66,12,51
+CentreCourt_Tour,CentreCourt,Tour,Centre Court - Hauptplatz,TourSpaet,Rasen,#55893A,#55893A,Schalensitze,#234F2E,24,4,Teil,5000,15000,Klassisch,True,False,True,False,False,#1F4D2B,8.23,4.57,12,51
+CentreCourt_GrandSlam,CentreCourt,GrandSlam,Centre Court - Stadion,GrandSlam;Finals,Rasen,#55893A,#55893A,Schalensitze,#1E4A2A,40,4,Voll,15000,15500,Klassisch,True,False,True,True,False,#1F4D2B,8.23,4.57,12,51
+Training_Standard,Training,Standard,Trainingsanlage,Training,Hart,#2F64A8,#2F6B45,Keine,#000000,0,0,Keins,0,0,Keine,True,False,False,True,True,#1F4D2B,6.40,3.66,13,0
+ArenaIndoor_ITF,ArenaIndoor,ITF,Arena Indoor - Nebenhalle,ITF;Quali,Halle,#24518F,#12233D,Klapptribuene,#3A3F4A,4,1,Halle,0,200,Elektronisch,False,False,False,False,False,#12233D,6.40,3.66,14,46
+ArenaIndoor_Challenger,ArenaIndoor,Challenger,Arena Indoor - Nebenplatz,Challenger;WTA125;TourFrueh,Halle,#24518F,#12233D,Schalensitze,#2A2E38,12,2,Halle,500,3000,Videowand,False,False,False,False,False,#12233D,6.40,3.66,14,46
+ArenaIndoor_Tour,ArenaIndoor,Tour,Arena Indoor - Hauptplatz,TourSpaet,Halle,#24518F,#12233D,Schalensitze,#23262E,25,4,Halle,5000,15000,Videowuerfel,False,False,False,False,False,#0F1B33,8.23,4.57,14,46
+ArenaIndoor_GrandSlam,ArenaIndoor,GrandSlam,Arena Indoor - Großarena,GrandSlam;Finals,Halle,#1F3B73,#0F1B33,Schalensitze,#1E2027,40,4,Halle,15000,20000,Videowuerfel,False,False,False,False,False,#0F1B33,8.23,4.57,14,47
+Finals_GrandSlam,Finals,GrandSlam,Finals-Halle,Finals,Halle,#1B2433,#0E1116,Schalensitze,#121318,35,4,Halle,15000,16000,Videowuerfel,False,False,False,False,False,#0B0D12,8.23,4.57,15,44
+Turnierhalle_ITF,Turnierhalle,ITF,Turnierhalle - klein,ITF;Quali,Halle,#3B6EA5,#2F4F7A,Klapptribuene,#9C7A54,4,1,Halle,0,200,Kipptafel,False,False,False,False,False,#6B4E2E,6.40,3.66,16,46
+Turnierhalle_Challenger,Turnierhalle,Challenger,Turnierhalle - Turnieraufbau,Challenger;WTA125;TourFrueh,Halle,#3B6EA5,#2F4F7A,Klapptribuene,#9C7A54,8,2,Halle,500,3000,Elektronisch,False,False,False,False,False,#6B4E2E,6.40,3.66,16,46
+Trainingshalle_Standard,Trainingshalle,Standard,Trainingshalle,Training,Halle,#3B6EA5,#2F4F7A,Keine,#000000,0,0,Halle,0,0,Keine,False,False,False,False,False,#2F4F7A,6.40,3.66,17,0

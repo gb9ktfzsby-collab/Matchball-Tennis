@@ -1,0 +1,75 @@
+Name,Tour,Stufe,Wertung,Abschnitt,Woche_Von,Woche_Bis,Belag,Halle,Kontinent,Feld,Qualifikation,Gesetzte,AnzahlProWoche,Anlage,Tageszeit_Nacht,Staedte
+N_ATP_CH125_Januar_Ozeanien,ATP,Challenger125,ATP_CH125_32,Januar,1,3,Hart,False,Ozeanien,32,24,8,1,Arena,False,Canberra:AUS;Brisbane:AUS;Burnie:AUS;Nouméa:FRA
+N_ATP_CH75_Winter_Asien,ATP,Challenger75,ATP_CH75_32,Januar,1,9,Hart,False,Asien,32,24,8,1,Arena,False,Nonthaburi:THA;Bengaluru:IND;Chennai:IND;Pune:IND;Neu-Delhi:IND
+N_ATP_CH100_Winter_HalleEuropa,ATP,Challenger100,ATP_CH100_32,Februar,3,11,Halle,True,Europa,32,24,8,1,Turnierhalle,False,Glasgow:GBR;Quimper:FRA;Koblenz:GER;Lille:FRA;Pau:FRA;Cherbourg:FRA;Lugano:SUI;Bergamo:ITA
+N_ATP_CH75_Winter_HalleNordamerika,ATP,Challenger75,ATP_CH75_32,Februar,3,11,Halle,True,Nordamerika,32,24,8,1,Turnierhalle,False,Cleveland:USA;Calgary:CAN;Drummondville:CAN;Waco:USA
+N_ATP_CH75_Februar_Suedamerika,ATP,Challenger75,ATP_CH75_32,Februar,6,13,Sand,False,Suedamerika,32,24,8,1,CourtCentral,False,Concepción:CHI;Piracicaba:BRA;Santa Cruz:BOL;Asunción:PAR;Florianópolis:BRA;Cali:COL
+N_ATP_CH50_Februar_Nordamerika,ATP,Challenger50,ATP_CH50_32,Februar,6,13,Hart,False,Nordamerika,32,24,8,1,Arena,False,Puerto Vallarta:MEX;Morelia:MEX;Cuernavaca:MEX;Monterrey:MEX
+N_ATP_CH175_Maerz_Phoenix,ATP,Challenger175,ATP_CH175_32,Maerz,11,11,Hart,False,Nordamerika,32,24,8,1,Arena,False,Phoenix:USA
+N_ATP_CH75_Maerz_Afrika,ATP,Challenger75,ATP_CH75_32,Maerz,9,12,Sand,False,Afrika,32,24,8,1,CourtCentral,False,Kigali:RWA;Tunis:TUN;Abidjan:CIV
+N_ATP_CH75_Maerz_SandEuropa,ATP,Challenger75,ATP_CH75_32,Maerz,11,13,Sand,False,Europa,32,24,8,1,CourtCentral,False,Zadar:CRO;Girona:ESP;Murcia:ESP;Sanremo:ITA
+N_ATP_CH125_Sandsaison_Europa,ATP,Challenger125,ATP_CH125_32,Sandsaison,14,23,Sand,False,Europa,32,24,8,1,CourtCentral,False,Barletta:ITA;Monza:ITA;Ostrava:CZE;Prag:CZE;Heilbronn:GER;Zagreb:CRO;Mauthausen:AUT;Oeiras:POR;Rom:ITA;Neapel:ITA
+N_ATP_CH175_Sandsaison_Madrid2,ATP,Challenger175,ATP_CH175_32,Sandsaison,18,18,Sand,False,Europa,32,24,8,1,CourtCentral,False,Aix-en-Provence:FRA;Oeiras:POR
+N_ATP_CH175_Sandsaison_Rom2,ATP,Challenger175,ATP_CH175_32,Sandsaison,20,20,Sand,False,Europa,32,24,8,1,CourtCentral,False,Bordeaux:FRA;Turin:ITA
+N_ATP_CH75_Sandsaison_Europa,ATP,Challenger75,ATP_CH75_32,Sandsaison,14,23,Sand,False,Europa,32,24,8,1,CourtCentral,False,Sanremo:ITA;Francavilla al Mare:ITA;Bratislava:SVK;Skopje:MKD;Vicenza:ITA;Kachreti:GEO
+N_ATP_CH75_Sandsaison_Nordamerika,ATP,Challenger75,ATP_CH75_32,Sandsaison,14,18,Sand,False,Nordamerika,32,24,8,1,CourtCentral,False,Sarasota:USA;Tallahassee:USA;Savannah:USA;Mexiko-Stadt:MEX
+N_ATP_CH100_Fruehjahr_Asien,ATP,Challenger100,ATP_CH100_32,Sandsaison,14,23,Hart,False,Asien,32,24,8,1,Arena,False,Busan:KOR;Gwangju:KOR;Seoul:KOR;Wuxi:CHN;Shenzhen:CHN;Taipeh:TPE
+N_ATP_CH50_Sandsaison_Suedamerika,ATP,Challenger50,ATP_CH50_32,Sandsaison,14,23,Sand,False,Suedamerika,32,24,8,1,CourtCentral,False,Santos:BRA;Campinas:BRA;Lima:PER;Santa Cruz:BOL;Asunción:PAR;Guayaquil:ECU
+N_ATP_CH125_Rasensaison_Europa,ATP,Challenger125,ATP_CH125_32,Rasensaison,23,26,Rasen,False,Europa,32,24,8,1,CentreCourt,False,Surbiton:GBR;Nottingham:GBR;Ilkley:GBR;Birmingham:GBR
+N_ATP_CH100_Rasensaison_SandEuropa,ATP,Challenger100,ATP_CH100_32,Rasensaison,24,28,Sand,False,Europa,32,24,8,1,CourtCentral,False,Perugia:ITA;Blois:FRA;Bratislava:SVK;Posen:POL;Mailand:ITA;Modena:ITA
+N_ATP_CH75_Sommer_Nordamerika,ATP,Challenger75,ATP_CH75_32,Sommer,24,35,Hart,False,Nordamerika,32,24,8,1,Arena,False,Little Rock:USA;Tyler:USA;Winnipeg:CAN;Granby:CAN;Lexington:USA;Cary:USA
+N_ATP_CH125_Sommer_SandEuropa,ATP,Challenger125,ATP_CH125_32,Sommer,29,35,Sand,False,Europa,32,24,8,1,CourtCentral,False,Braunschweig:GER;Amersfoort:NED;Triest:ITA;San Marino:SMR;Cordenons:ITA;Liberec:CZE;Meerbusch:GER
+N_ATP_CH100_Sommer_Nordamerika,ATP,Challenger100,ATP_CH100_32,Sommer,29,34,Hart,False,Nordamerika,32,24,8,1,Arena,False,Chicago:USA;Vancouver:CAN;Lexington:USA;Cary:USA
+N_ATP_CH75_Sommer_Asien,ATP,Challenger75,ATP_CH75_32,Sommer,29,37,Hart,False,Asien,32,24,8,1,Arena,False,Zhangjiagang:CHN;Jinan:CHN;Nanchang:CHN;Astana:KAZ
+N_ATP_CH75_Spaetsommer_HartEuropa,ATP,Challenger75,ATP_CH75_32,Sommer,33,38,Hart,False,Europa,32,24,8,1,Arena,False,Pozoblanco:ESP;Segovia:ESP;Cassis:FRA;Porto:POR
+N_ATP_CH50_Sommer_Suedamerika,ATP,Challenger50,ATP_CH50_32,Sommer,29,37,Sand,False,Suedamerika,32,24,8,1,CourtCentral,False,Bogotá:COL;Medellín:COL;Cuenca:ECU;Lima:PER;Asunción:PAR
+N_ATP_CH125_Herbst_SandEuropa,ATP,Challenger125,ATP_CH125_32,Herbst,36,41,Sand,False,Europa,32,24,8,1,CourtCentral,False,Genua:ITA;Sevilla:ESP;Stettin:POL;Bad Waltersdorf:AUT;Neapel:ITA
+N_ATP_CH125_Herbst_Asien,ATP,Challenger125,ATP_CH125_32,Herbst,37,42,Hart,False,Asien,32,24,8,1,Arena,False,Shanghai:CHN;Guangzhou:CHN;Shenzhen:CHN;Seoul:KOR
+N_ATP_CH100_Herbst_HalleEuropa,ATP,Challenger100,ATP_CH100_32,Herbst,37,42,Halle,True,Europa,32,24,8,1,Turnierhalle,False,Orléans:FRA;Rennes:FRA;Mouilleron-le-Captif:FRA;Saint-Brieuc:FRA
+N_ATP_CH75_Herbst_Suedamerika,ATP,Challenger75,ATP_CH75_32,Herbst,38,47,Sand,False,Suedamerika,32,24,8,1,CourtCentral,False,Buenos Aires:ARG;Lima:PER;Campinas:BRA;Santo Domingo:DOM;Montevideo:URU;Guayaquil:ECU
+N_ATP_CH75_Herbst_Nordamerika,ATP,Challenger75,ATP_CH75_32,Herbst,38,42,Hart,False,Nordamerika,32,24,8,1,Arena,False,Tiburon:USA;Fairfield:USA;Las Vegas:USA;Columbus:USA
+N_ATP_CH125_Hallensaison_Europa,ATP,Challenger125,ATP_CH125_32,Hallensaison,43,47,Halle,True,Europa,32,24,8,1,Turnierhalle,False,Bergamo:ITA;Brest:FRA;Helsinki:FIN;Eckental:GER;Ortisei:ITA;Roanne:FRA;Ismaning:GER
+N_ATP_CH75_Hallensaison_Nordamerika,ATP,Challenger75,ATP_CH75_32,Hallensaison,43,47,Halle,True,Nordamerika,32,24,8,1,Turnierhalle,False,Charlottesville:USA;Knoxville:USA;Champaign:USA;Calgary:CAN
+N_ATP_CH100_Hallensaison_Asien,ATP,Challenger100,ATP_CH100_32,Hallensaison,43,47,Hart,False,Asien,32,24,8,1,Arena,False,Yokohama:JPN;Matsuyama:JPN;Kyoto:JPN;Hua Hin:THA
+N_ATP_CH75_Hallensaison_Ozeanien,ATP,Challenger75,ATP_CH75_32,Hallensaison,43,47,Hart,False,Ozeanien,32,24,8,1,Arena,False,Sydney:AUS;Playford:AUS;Brisbane:AUS;Traralgon:AUS
+N_ITF_M15_Ganzjahr_Afrika,ATP,ITF_M15,ITF_M15_32,Ganzjahr,1,47,Hart,False,Afrika,32,32,8,1,Arena,False,Monastir:TUN;Sharm El-Sheikh:EGY
+N_ITF_M15_Ganzjahr_Asien,ATP,ITF_M15,ITF_M15_32,Ganzjahr,1,47,Hart,False,Asien,32,32,8,1,Arena,False,Nonthaburi:THA;Kalaburagi:IND;Yanagawa:JPN;Chandigarh:IND;Jakarta:INA
+N_ITF_M25_Ganzjahr_Nordamerika,ATP,ITF_M25,ITF_M25_32,Ganzjahr,1,47,Hart,False,Nordamerika,32,32,8,1,Arena,False,Cancún:MEX;Lakewood:USA;Calabasas:USA;Edmond:USA;Laval:CAN
+N_ITF_M25_Ganzjahr_Suedamerika,ATP,ITF_M25,ITF_M25_32,Ganzjahr,1,47,Sand,False,Suedamerika,32,32,8,1,CourtCentral,False,Buenos Aires:ARG;Lima:PER;Santiago:CHI;Mendoza:ARG;São Paulo:BRA
+N_ITF_M25_Winter_SandEuropa,ATP,ITF_M25,ITF_M25_32,Januar,1,13,Sand,False,Europa,32,32,8,1,CourtCentral,False,Antalya:TUR
+N_ITF_M15_Winter_HalleEuropa,ATP,ITF_M15,ITF_M15_32,Januar,1,13,Halle,True,Europa,32,32,8,1,Turnierhalle,False,Sunderland:GBR;Bressuire:FRA;Oberhaching:GER;Oslo:NOR;Veigy-Foncenex:FRA
+N_ITF_M25_Winter_HalleEuropa,ATP,ITF_M25,ITF_M25_32,Januar,1,13,Halle,True,Europa,32,32,8,1,Turnierhalle,False,Glasgow:GBR;Trimbach:SUI;Bagnoles-de-l'Orne:FRA;Poitiers:FRA
+N_ITF_M25_Sommer_SandEuropa,ATP,ITF_M25,ITF_M25_32,Sandsaison,14,40,Sand,False,Europa,32,32,8,1,CourtCentral,False,Santa Margherita di Pula:ITA;Kursumlijska Banja:SRB;Vic:ESP;Lleida:ESP;Telfs:AUT;Kassel:GER;Bielsko-Biała:POL
+N_ITF_M15_Sommer_SandEuropa,ATP,ITF_M15,ITF_M15_32,Sandsaison,14,40,Sand,False,Europa,32,32,8,2,CourtCentral,False,Antalya:TUR;Santa Margherita di Pula:ITA;Kursumlijska Banja:SRB;Bukarest:ROU;Sabadell:ESP;Grodzisk Mazowiecki:POL;Sintra:POR
+N_ITF_M25_Herbst_HartEuropa,ATP,ITF_M25,ITF_M25_32,Herbst,38,47,Hart,False,Europa,32,32,8,1,Arena,False,Heraklion:GRE;Limassol:CYP;Sintra:POR
+N_ITF_M15_Herbst_HalleEuropa,ATP,ITF_M15,ITF_M15_32,Hallensaison,41,47,Halle,True,Europa,32,32,8,1,Turnierhalle,False,Sunderland:GBR;Oberhaching:GER;Helsinki:FIN;Ostrava:CZE
+N_ITF_M25_Herbst_HalleEuropa,ATP,ITF_M25,ITF_M25_32,Hallensaison,41,47,Halle,True,Europa,32,32,8,1,Turnierhalle,False,Glasgow:GBR;Trimbach:SUI;Sarreguemines:FRA;Bratislava:SVK
+N_WTA_125_Januar_Ozeanien,WTA,WTA125,WTA_125_32,Januar,1,3,Hart,False,Ozeanien,32,16,8,1,Arena,False,Canberra:AUS
+N_WTA_125_Februar_Asien,WTA,WTA125,WTA_125_32,Februar,6,9,Hart,False,Asien,32,16,8,1,Arena,False,Mumbai:IND;Pune:IND;Bengaluru:IND
+N_WTA_125_Maerz_Nordamerika,WTA,WTA125,WTA_125_32,Maerz,10,13,Hart,False,Nordamerika,32,16,8,1,Arena,False,Puerto Vallarta:MEX;Tampico:MEX
+N_WTA_125_Sandsaison_Europa,WTA,WTA125,WTA_125_32,Sandsaison,14,23,Sand,False,Europa,32,16,8,1,CourtCentral,False,Saint-Malo:FRA;Parma:ITA;Rom:ITA;Antalya:TUR;Makarska:CRO;Paris:FRA
+N_WTA_125_Rasensaison_Europa,WTA,WTA125,WTA_125_32,Rasensaison,24,26,Rasen,False,Europa,32,16,8,1,CentreCourt,False,Ilkley:GBR;Birmingham:GBR;Gaiba:ITA
+N_WTA_125_Sommer_SandEuropa,WTA,WTA125,WTA_125_32,Sommer,29,35,Sand,False,Europa,32,16,8,1,CourtCentral,False,Båstad:SWE;Contrexéville:FRA;Grado:ITA;Warschau:POL;Barcelona:ESP
+N_WTA_125_Sommer_Nordamerika,WTA,WTA125,WTA_125_32,Sommer,29,35,Hart,False,Nordamerika,32,16,8,1,Arena,False,Chicago:USA;Vancouver:CAN;Granby:CAN
+N_WTA_125_Herbst_SandEuropa,WTA,WTA125,WTA_125_32,Herbst,36,41,Sand,False,Europa,32,16,8,1,CourtCentral,False,Montreux:SUI;Valencia:ESP;Florenz:ITA
+N_WTA_125_Herbst_Asien,WTA,WTA125,WTA_125_32,Herbst,38,47,Hart,False,Asien,32,16,8,1,Arena,False,Suzhou:CHN;Hua Hin:THA;Taipeh:TPE
+N_WTA_125_Hallensaison_Europa,WTA,WTA125,WTA_125_32,Hallensaison,42,47,Halle,True,Europa,32,16,8,1,Turnierhalle,False,Limoges:FRA;Angers:FRA;Andorra la Vella:AND;Luxemburg:LUX
+N_WTA_125_Hallensaison_Nordamerika,WTA,WTA125,WTA_125_32,Hallensaison,44,47,Hart,False,Nordamerika,32,16,8,1,Arena,False,Austin:USA;Tampico:MEX
+N_ITF_W15_Ganzjahr_Afrika,WTA,ITF_W15,ITF_W15_32,Ganzjahr,1,47,Hart,False,Afrika,32,32,8,2,Arena,False,Monastir:TUN;Sharm El-Sheikh:EGY
+N_ITF_W35_Ganzjahr_Nordamerika,WTA,ITF_W35,ITF_W35_32,Ganzjahr,1,47,Hart,False,Nordamerika,32,32,8,1,Arena,False,Cancún:MEX;Lakewood:USA;Rancho Santa Fe:USA;Pelham:USA;Sumter:USA
+N_ITF_W75_Ganzjahr_Nordamerika,WTA,ITF_W75,ITF_W75_32,Ganzjahr,1,47,Hart,False,Nordamerika,32,32,8,1,Arena,False,Rancho Santa Fe:USA;Saguenay:CAN;Edmonton:CAN;Evansville:USA
+N_ITF_W50_Ganzjahr_Asien,WTA,ITF_W50,ITF_W50_32,Ganzjahr,1,47,Hart,False,Asien,32,32,8,1,Arena,False,Nonthaburi:THA;Kurume:JPN;Kofu:JPN;Bengaluru:IND;Hua Hin:THA
+N_ITF_W35_Ganzjahr_Suedamerika,WTA,ITF_W35,ITF_W35_32,Ganzjahr,1,47,Sand,False,Suedamerika,32,32,8,1,CourtCentral,False,Buenos Aires:ARG;Santiago:CHI;Lima:PER;Asunción:PAR;São Paulo:BRA
+N_ITF_W35_Sommer_Ozeanien,WTA,ITF_W35,ITF_W35_32,Januar,1,8,Hart,False,Ozeanien,32,32,8,1,Arena,False,Canberra:AUS;Sydney:AUS;Brisbane:AUS;Bendigo:AUS
+N_ITF_W35_Herbst_Ozeanien,WTA,ITF_W35,ITF_W35_32,Hallensaison,40,47,Hart,False,Ozeanien,32,32,8,1,Arena,False,Brisbane:AUS;Sydney:AUS;Playford:AUS;Traralgon:AUS
+N_ITF_W35_Winter_HalleEuropa,WTA,ITF_W35,ITF_W35_32,Januar,1,13,Halle,True,Europa,32,32,8,1,Turnierhalle,False,Sunderland:GBR;Andrézieux-Bouthéon:FRA;Grenoble:FRA;Tallinn:EST
+N_ITF_W75_Winter_HalleEuropa,WTA,ITF_W75,ITF_W75_32,Januar,1,13,Halle,True,Europa,32,32,8,1,Turnierhalle,False,Andrézieux-Bouthéon:FRA;Loughborough:GBR;Altenkirchen:GER
+N_ITF_W15_Sommer_SandEuropa,WTA,ITF_W15,ITF_W15_32,Sandsaison,14,40,Sand,False,Europa,32,32,8,1,CourtCentral,False,Antalya:TUR;Santa Margherita di Pula:ITA;Kursumlijska Banja:SRB;Sabadell:ESP
+N_ITF_W35_Sommer_SandEuropa,WTA,ITF_W35,ITF_W35_32,Sandsaison,14,40,Sand,False,Europa,32,32,8,2,CourtCentral,False,Santa Margherita di Pula:ITA;Antalya:TUR;Kursumlijska Banja:SRB;Bukarest:ROU;Prag:CZE;Lleida:ESP
+N_ITF_W50_Sommer_SandEuropa,WTA,ITF_W50,ITF_W50_32,Sandsaison,14,40,Sand,False,Europa,32,32,8,1,CourtCentral,False,Wiesbaden:GER;Košice:SVK;Ystad:SWE;Brașov:ROU;Zagreb:CRO
+N_ITF_W75_Sommer_SandEuropa,WTA,ITF_W75,ITF_W75_32,Sandsaison,14,38,Sand,False,Europa,32,32,8,1,CourtCentral,False,Biarritz:FRA;Saint-Gaudens:FRA;Trnava:SVK;Prag:CZE
+N_ITF_W100_Sommer_SandEuropa,WTA,ITF_W100,ITF_W100_32,Sandsaison,14,40,Sand,False,Europa,32,32,8,1,CourtCentral,False,Cagnes-sur-Mer:FRA;Wiesbaden:GER;Biarritz:FRA;Klosters:SUI
+N_ITF_W100_Rasensaison_Europa,WTA,ITF_W100,ITF_W100_32,Rasensaison,23,26,Rasen,False,Europa,32,32,8,1,CentreCourt,False,Surbiton:GBR;Nottingham:GBR
+N_ITF_W100_Herbst_Nordamerika,WTA,ITF_W100,ITF_W100_32,Herbst,38,47,Hart,False,Nordamerika,32,32,8,1,Arena,False,Tyler:USA;Macon:USA;Edmonton:CAN;Rancho Santa Fe:USA
+N_ITF_W35_Herbst_HalleEuropa,WTA,ITF_W35,ITF_W35_32,Hallensaison,41,47,Halle,True,Europa,32,32,8,1,Turnierhalle,False,Sunderland:GBR;Pétange:LUX;Glasgow:GBR;Trnava:SVK
+N_ITF_W75_Herbst_HalleEuropa,WTA,ITF_W75,ITF_W75_32,Hallensaison,41,47,Halle,True,Europa,32,32,8,1,Turnierhalle,False,Shrewsbury:GBR;Joué-lès-Tours:FRA;Ortisei:ITA;Trnava:SVK

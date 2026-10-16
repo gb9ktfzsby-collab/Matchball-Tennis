@@ -1,0 +1,54 @@
+Name,Turnier,Stadt,Land,Woche,Wochen,Datum,Stufe,Wertung,Belag,Halle,Feld,Qualifikation,Gesetzte,Anlage,Preisgeld_USD,Tageszeit_Nacht,CourtPace,Belagfarbe,Auslauffarbe,Akzentfarbe
+WTA_Brisbane,Brisbane International,Brisbane,AUS,2,1,2026-01-04,WTA500,WTA_500_48,Hart,False,48,24,16,Arena,1070000,True,42,#2B6FB8,#1D4E86,#F2A900
+WTA_Auckland,Auckland Open,Auckland,NZL,2,1,2026-01-05,WTA250,WTA_250_32,Hart,False,32,24,8,Arena,221000,False,40,#2F64A8,#2F6B45,#1D3557
+WTA_Adelaide,Adelaide International,Adelaide,AUS,3,1,2026-01-11,WTA500,WTA_500_28,Hart,False,28,24,8,Arena,750000,True,41,#2B6FB8,#3B7A55,#D7263D
+WTA_Hobart,Hobart International,Hobart,AUS,3,1,2026-01-11,WTA250,WTA_250_32,Hart,False,32,24,8,Arena,221000,False,41,#2F64A8,#2F6B45,#00843D
+WTA_AustralianOpen,Australian Open,Melbourne,AUS,4,2,2026-01-18,GrandSlam,WTA_GS_128,Hart,False,128,128,32,Arena,28700000,True,40,#2A7FD0,#1C5A9E,#0091D2
+WTA_AbuDhabi,Abu Dhabi Open,Abu Dhabi,UAE,6,1,2026-02-02,WTA500,WTA_500_28,Hart,False,28,24,8,Arena,750000,True,43,#2A5DA8,#1B3F73,#B08D57
+WTA_Ostrava,Ostrava Open,Ostrava,CZE,6,1,2026-02-02,WTA250,WTA_250_32,Halle,True,32,24,8,ArenaIndoor,221000,False,46,#24518F,#12233D,#11457E
+WTA_Doha,Qatar Open,Doha,QAT,7,1,2026-02-08,WTA1000,WTA_1000_56,Hart,False,56,32,16,Arena,2900000,True,42,#2E5FA3,#6B2D4F,#8A1538
+WTA_Dubai,Dubai Tennis Championships,Dubai,UAE,8,1,2026-02-15,WTA1000,WTA_1000_56,Hart,False,56,32,16,Arena,2900000,True,44,#2A5DA8,#1B3F73,#B08D57
+WTA_Merida,Mérida Open,Mérida,MEX,9,1,2026-02-23,WTA500,WTA_500_32,Hart,False,32,24,8,Arena,770000,True,41,#2B5FA8,#3E7F8C,#E94E1B
+WTA_Austin,ATX Open,Austin,USA,9,1,2026-02-23,WTA250,WTA_250_32,Hart,False,32,24,8,Arena,221000,False,41,#2F64A8,#2F6B45,#BF5700
+WTA_IndianWells,Indian Wells Open,Indian Wells,USA,10,2,2026-03-04,WTA1000,WTA_1000_96,Hart,False,96,48,32,Arena,7300000,True,33,#3D5F99,#5B4A8B,#6A4C93
+WTA_Miami,Miami Open,Miami,USA,12,2,2026-03-17,WTA1000,WTA_1000_96,Hart,False,96,48,32,Arena,7300000,True,38,#2B6CB0,#1F8C8C,#00A6A6
+WTA_Charleston,Charleston Open,Charleston,USA,14,1,2026-03-30,WTA500,WTA_500_48,Sand,False,48,24,16,CourtCentral,900000,True,24,#5E7F5A,#4E6B4A,#1D3557
+WTA_Bogota,Bogotá Open,Bogotá,COL,14,1,2026-03-30,WTA250,WTA_250_32,Sand,False,32,24,8,CourtCentral,221000,False,24,#B4562F,#B4562F,#FCD116
+WTA_Linz,Linz Open,Linz,AUT,15,1,2026-04-06,WTA500,WTA_500_28,Sand,True,28,24,8,ArenaIndoor,750000,False,21,#B4562F,#B4562F,#C8102E
+WTA_Stuttgart,Stuttgart Open,Stuttgart,GER,16,1,2026-04-13,WTA500,WTA_500_28,Sand,True,28,24,8,ArenaIndoor,750000,False,22,#B4562F,#B4562F,#1D1D1B
+WTA_Rouen,Open de Rouen,Rouen,FRA,16,1,2026-04-13,WTA250,WTA_250_32,Sand,True,32,24,8,ArenaIndoor,221000,False,21,#B4562F,#B4562F,#0055A4
+WTA_Madrid,Madrid Open,Madrid,ESP,17,2,2026-04-21,WTA1000,WTA_1000_96,Sand,False,96,48,32,CourtCentral,7300000,True,26,#B85A33,#B85A33,#D7263D
+WTA_Rom,Internazionali d'Italia,Rom,ITA,19,2,2026-05-05,WTA1000,WTA_1000_96,Sand,False,96,48,32,CourtCentral,6000000,True,21,#B95B33,#B95B33,#1E5631
+WTA_Strassburg,Internationaux de Strasbourg,Straßburg,FRA,21,1,2026-05-17,WTA500,WTA_500_28,Sand,False,28,24,8,CourtCentral,750000,False,21,#B4562F,#B4562F,#0055A4
+WTA_Rabat,Rabat Open,Rabat,MAR,21,1,2026-05-18,WTA250,WTA_250_32,Sand,False,32,24,8,CourtCentral,221000,False,21,#B4562F,#B4562F,#C1272D
+WTA_RolandGarros,Roland Garros,Paris,FRA,22,2,2026-05-24,GrandSlam,WTA_GS_128,Sand,False,128,128,32,CourtCentral,26900000,True,22,#C1643A,#C1643A,#1E5631
+WTA_Queens,Queen's Club Championships,London,GBR,24,1,2026-06-08,WTA500,WTA_500_28,Rasen,False,28,24,8,CentreCourt,900000,False,50,#55893A,#55893A,#1D3557
+WTA_sHertogenbosch,'s-Hertogenbosch Open,'s-Hertogenbosch,NED,24,1,2026-06-08,WTA250,WTA_250_32,Rasen,False,32,24,8,CentreCourt,221000,False,51,#5A8F3D,#5A8F3D,#F28C28
+WTA_Berlin,Berlin Open,Berlin,GER,25,1,2026-06-15,WTA500,WTA_500_28,Rasen,False,28,24,8,CentreCourt,750000,False,51,#55893A,#55893A,#1D1D1B
+WTA_Nottingham,Nottingham Open,Nottingham,GBR,25,1,2026-06-15,WTA250,WTA_250_32,Rasen,False,32,24,8,CentreCourt,221000,False,50,#5A8F3D,#5A8F3D,#1D3557
+WTA_BadHomburg,Bad Homburg Open,Bad Homburg,GER,26,1,2026-06-21,WTA500,WTA_500_28,Rasen,False,28,24,8,CentreCourt,750000,False,51,#55893A,#55893A,#1F4D2B
+WTA_Eastbourne,Eastbourne International,Eastbourne,GBR,26,1,2026-06-22,WTA250,WTA_250_32,Rasen,False,32,24,8,CentreCourt,221000,False,50,#5A8F3D,#5A8F3D,#1D3557
+WTA_Wimbledon,Wimbledon,London,GBR,27,2,2026-06-29,GrandSlam,WTA_GS_128,Rasen,False,128,128,32,CentreCourt,29700000,False,50,#55893A,#55893A,#4B2C6F
+WTA_Iasi,Iași Open,Iași,ROU,29,1,2026-07-13,WTA250,WTA_250_32,Sand,False,32,24,8,CourtCentral,221000,False,20,#B4562F,#B4562F,#002B7F
+WTA_Hamburg,Hamburg Open,Hamburg,GER,30,1,2026-07-20,WTA250,WTA_250_32,Sand,False,32,24,8,CourtCentral,221000,False,21,#B4562F,#B4562F,#C8102E
+WTA_Prag,Prague Open,Prag,CZE,30,1,2026-07-20,WTA250,WTA_250_32,Hart,False,32,24,8,Arena,221000,False,40,#2F64A8,#2F6B45,#11457E
+WTA_Washington,Washington Open,Washington,USA,31,1,2026-07-27,WTA500,WTA_500_28,Hart,False,28,24,8,Arena,750000,True,41,#2E64A3,#3C7A4D,#1C2C5B
+WTA_Toronto,Canadian Open,Toronto,CAN,32,1,2026-08-02,WTA1000,WTA_1000_96,Hart,False,96,48,32,Arena,5840000,True,41,#2F6EB5,#1E4E87,#C8102E
+WTA_Cincinnati,Cincinnati Open,Cincinnati,USA,33,2,2026-08-13,WTA1000,WTA_1000_96,Hart,False,96,48,32,Arena,5840000,True,44,#2F67A8,#3F7F4F,#1D3557
+WTA_Monterrey,Monterrey Open,Monterrey,MEX,35,1,2026-08-24,WTA500,WTA_500_32,Hart,False,32,24,8,Arena,770000,True,41,#2B5FA8,#5C3C8C,#E94E1B
+WTA_Cleveland,Cleveland Open,Cleveland,USA,35,1,2026-08-23,WTA250,WTA_250_32,Hart,False,32,24,8,Arena,221000,False,42,#2F64A8,#2F6B45,#FF3C00
+WTA_USOpen,US Open,New York,USA,36,2,2026-08-30,GrandSlam,WTA_GS_128,Hart,False,128,128,32,Arena,35600000,True,42,#3C638E,#6C935C,#1C2C5B
+WTA_Guadalajara,Guadalajara Open,Guadalajara,MEX,38,1,2026-09-14,WTA500,WTA_500_32,Hart,False,32,24,8,Arena,770000,True,43,#2B5FA8,#3E7F8C,#006847
+WTA_SaoPaulo,São Paulo Open,São Paulo,BRA,38,1,2026-09-14,WTA250,WTA_250_32,Hart,False,32,24,8,Arena,221000,False,41,#2F64A8,#2F6B45,#009C3B
+WTA_Singapur,Singapore Open,Singapur,SGP,39,1,2026-09-21,WTA500,WTA_500_28,Halle,True,28,24,8,ArenaIndoor,750000,False,45,#24518F,#12233D,#EF3340
+WTA_Seoul,Korea Open,Seoul,KOR,39,1,2026-09-21,WTA250,WTA_250_32,Hart,False,32,24,8,Arena,221000,False,41,#2F64A8,#2C3E7A,#CD2E3A
+WTA_Peking,China Open,Peking,CHN,40,2,2026-09-30,WTA1000,WTA_1000_96,Hart,False,96,48,32,Arena,7000000,True,40,#2C66A6,#3B7A55,#C8102E
+WTA_Wuhan,Wuhan Open,Wuhan,CHN,42,1,2026-10-12,WTA1000,WTA_1000_56,Hart,False,56,32,16,Arena,2900000,True,42,#2F64A8,#3B7A55,#00A0E9
+WTA_Ningbo,Ningbo Open,Ningbo,CHN,43,1,2026-10-19,WTA500,WTA_500_28,Hart,False,28,24,8,Arena,750000,True,41,#2F64A8,#2C3E7A,#3A86FF
+WTA_Osaka,Osaka Open,Osaka,JPN,43,1,2026-10-19,WTA250,WTA_250_32,Hart,False,32,24,8,Arena,221000,False,42,#3B7F55,#2C5E40,#D7263D
+WTA_Tokio,Pan Pacific Open,Tokio,JPN,44,1,2026-10-26,WTA500,WTA_500_28,Hart,False,28,24,8,Arena,750000,False,42,#3B7F55,#2C5E40,#D7263D
+WTA_Guangzhou,Guangzhou Open,Guangzhou,CHN,44,1,2026-10-26,WTA250,WTA_250_32,Hart,False,32,24,8,Arena,221000,False,40,#2F64A8,#3B7A55,#C8102E
+WTA_Chennai,Chennai Open,Chennai,IND,45,1,2026-11-02,WTA250,WTA_250_32,Hart,False,32,24,8,Arena,221000,True,40,#2F64A8,#2F6B45,#FF9933
+WTA_HongKong,Hong Kong Open,Hongkong,HKG,45,1,2026-11-02,WTA250,WTA_250_32,Hart,False,32,24,8,Arena,221000,False,41,#2F64A8,#3B7A4F,#C8102E
+WTA_Jiujiang,Jiangxi Open,Jiujiang,CHN,45,1,2026-11-02,WTA250,WTA_250_32,Hart,False,32,24,8,Arena,221000,False,40,#2F64A8,#3B7A55,#2A9D8F
+WTA_Finals,WTA Finals,Riad,KSA,46,1,2026-11-07,Finals,WTA_FINALS_8,Halle,True,8,0,8,Finals,12140000,False,44,#3A2A5C,#17112A,#C9A227
