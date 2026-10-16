@@ -914,8 +914,10 @@ def render_engine_setzen(wunsch="AUTO", samples=0):
 
 
 def _farbverwaltung(szene):
+    """'Standard': Grundfarben erscheinen unverfaelscht (AgX entsaettigt kraeftige Farben wie Optic Yellow
+    sichtbar - fuer die Abnahme von Materialfarben ungeeignet)."""
     vs = szene.view_settings
-    for vt in ("AgX", "Filmic", "Standard"):
+    for vt in ("Standard", "AgX", "Filmic"):
         try:
             vs.view_transform = vt
             break
@@ -953,7 +955,7 @@ def _welt_neutral(szene, grau_kamera=0.22, licht=0.35):
     return welt
 
 
-def _richtung(vorne, oben, azimut_grad, hoehe_grad):
+def blickrichtung(vorne, oben, azimut_grad, hoehe_grad):
     """Einheitsvektor vom Objekt zur Kamera: vorne um 'oben' gedreht (positiv = gegen den Uhrzeigersinn
     von oben gesehen) und um hoehe_grad angehoben."""
     h = Quaternion(oben, math.radians(azimut_grad)) @ vorne
@@ -1029,7 +1031,7 @@ def vorschau_rendern(args, asset, objekte, vorne=(0.0, -1.0, 0.0), oben=(0.0, 0.
         if hasattr(ld, "use_shadow"):
             ld.use_shadow = schatten
         lo = bpy.data.objects.new("_MB_" + name, ld)
-        d = _richtung(vorne, oben, az, hoehe)
+        d = blickrichtung(vorne, oben, az, hoehe)
         lo.rotation_euler = (-d).to_track_quat('-Z', 'Y').to_euler()
         sammlung.objects.link(lo)
         lichter.append(lo)
@@ -1050,7 +1052,7 @@ def vorschau_rendern(args, asset, objekte, vorne=(0.0, -1.0, 0.0), oben=(0.0, 0.
     try:
         for ansicht in ansichten:
             az, hoehe = ANSICHT_WINKEL.get(ansicht, (0.0, 10.0))
-            richtung = _richtung(vorne, oben, az, hoehe)
+            richtung = blickrichtung(vorne, oben, az, hoehe)
             if ansicht == "nah":
                 if nah is not None:
                     mitte, radius = Vector(nah[0]), float(nah[1])

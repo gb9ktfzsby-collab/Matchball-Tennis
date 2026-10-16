@@ -526,6 +526,8 @@ function Read-MBJson {
     param([Parameter(Mandatory = $true)] [string] $Pfad)
     $text = [System.IO.File]::ReadAllText($Pfad)
     if ($text.Length -gt 0 -and $text[0] -eq [char]0xFEFF) { $text = $text.Substring(1) }
+    # return gibt ein Array elementweise aus - so verhalten sich Windows PowerShell 5.1 (ConvertFrom-Json gibt
+    # Arrays als EIN Objekt aus) und PowerShell 7 gleich; Aufrufer nehmen @(Read-MBJson ...) fuer Listen.
     return ($text | ConvertFrom-Json)
 }
 

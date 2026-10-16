@@ -168,7 +168,7 @@ try {
         Write-MBSchritt 'Unreal-Import (Tools/Python/import_alles.py)'
         $importSkript = Join-Path $pfade.ToolsPython 'import_alles.py'
         if (-not (Test-Path -LiteralPath $importSkript -PathType Leaf)) {
-            Stop-MBMitFehler ('Import-Skript fehlt: {0}' -f $importSkript)
+            Stop-MBMitFehler ('Import-Skript nicht gefunden: {0}' -f $importSkript) -Hinweise @('Es entsteht mit der Unreal-Python-Pipeline (README 3.2, Tools/Python/import_*.py).')
         }
         $ue = Find-MBUnreal -Pflicht
         Assert-MBEditorGebaut
@@ -191,8 +191,8 @@ try {
         $bilanz = ''
         $bilanzFehlschlag = $false
         if (Test-Path -LiteralPath $logDatei -PathType Leaf) {
-            $pythonFehler = @(Select-String -LiteralPath $logDatei -Pattern 'LogPython: Error' -SimpleMatch | ForEach-Object { $_.Line.Trim() })
-            $b = Select-String -LiteralPath $logDatei -Pattern '(Success|Failure) - \d+ error\(s\), \d+ warning\(s\)' | Select-Object -Last 1
+            $pythonFehler = @(Select-String -Encoding UTF8 -LiteralPath $logDatei -Pattern 'LogPython: Error' -SimpleMatch | ForEach-Object { $_.Line.Trim() })
+            $b = Select-String -Encoding UTF8 -LiteralPath $logDatei -Pattern '(Success|Failure) - \d+ error\(s\), \d+ warning\(s\)' | Select-Object -Last 1
             if ($null -ne $b) {
                 $bilanz = $b.Matches[0].Value
                 $bilanzFehlschlag = $bilanz.StartsWith('Failure')

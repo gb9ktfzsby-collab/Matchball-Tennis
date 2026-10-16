@@ -107,7 +107,7 @@ function Invoke-KernTests {
     $protokolle += $ctestLog
     foreach ($protokoll in $protokolle) {
         if ($zusammenfassung -ne '' -or -not (Test-Path -LiteralPath $protokoll -PathType Leaf)) { continue }
-        $treffer = Select-String -LiteralPath $protokoll -Pattern '\d+ Tests, \d+ Pruefungen, \d+ fehlgeschlagen' | Select-Object -Last 1
+        $treffer = Select-String -Encoding UTF8 -LiteralPath $protokoll -Pattern '\d+ Tests, \d+ Pruefungen, \d+ fehlgeschlagen' | Select-Object -Last 1
         if ($null -ne $treffer) { $zusammenfassung = $treffer.Matches[0].Value }
     }
     if ($code -eq 0) {
@@ -157,7 +157,7 @@ function Read-UnrealLog {
     $erfolgreich = 0
     $fehlgeschlagen = 0
     $fehlerliste = @()
-    foreach ($treffer in (Select-String -LiteralPath $Datei -Pattern 'Result=\{(\w+)\}\s+Name=\{([^}]*)\}\s+Path=\{([^}]*)\}')) {
+    foreach ($treffer in (Select-String -Encoding UTF8 -LiteralPath $Datei -Pattern 'Result=\{(\w+)\}\s+Name=\{([^}]*)\}\s+Path=\{([^}]*)\}')) {
         $zustand = $treffer.Matches[0].Groups[1].Value
         $pfad = $treffer.Matches[0].Groups[3].Value
         if ($zustand -match '^(Success|Succeeded|Passed)$') { $erfolgreich++ }
@@ -207,7 +207,7 @@ function Invoke-UnrealTests {
     }
     $keineTests = $false
     if (Test-Path -LiteralPath $logDatei -PathType Leaf) {
-        $keineTests = $null -ne (Select-String -LiteralPath $logDatei -Pattern 'No automation tests matched' -SimpleMatch | Select-Object -First 1)
+        $keineTests = $null -ne (Select-String -Encoding UTF8 -LiteralPath $logDatei -Pattern 'No automation tests matched' -SimpleMatch | Select-Object -First 1)
     }
 
     Write-MBInfo ('Berichte: {0}' -f $berichtUnreal)

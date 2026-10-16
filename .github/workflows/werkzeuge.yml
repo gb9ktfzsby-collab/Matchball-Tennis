@@ -6,6 +6,9 @@
 #     Nachbearbeitung von package.ps1 an einem nachgebauten Spielordner, saubere Abbrueche ohne Unreal)
 #   * Batch-Dateien: nur ASCII, CRLF, verweisen auf vorhandene Skripte
 #   * Python: Syntax aller Skripte
+#   * Blender: das echte Blender 5.2 LTS fuehrt ueber Tools/assets.ps1 -NurBlender alle Blender-Skripte aus
+#     (wie auf dem PC, nur mit Cycles auf der CPU, weil der Runner keine Grafikkarte hat); FBX, meta.json und
+#     Vorschaubilder kommen als Artefakt "blender-ergebnisse" an den Lauf
 
 name: Werkzeuge
 
@@ -17,6 +20,7 @@ on:
       - 'Unreal/*.bat'
       - 'Unreal/Data/**'
       - 'Unreal/Config/DefaultGame.ini'
+      - 'Vorgaben/**'
       - '.github/workflows/werkzeuge.yml'
   pull_request:
   workflow_dispatch:
@@ -180,18 +184,76 @@ jobs:
       - name: Syntax aller Python-Skripte
         run: |
           python - <<'EOF'
-          import pathlib, py_compile, sys
+          import pathlib, sys
           dateien = sorted(p for p in pathlib.Path('Unreal').rglob('*.py') if '__pycache__' not in p.parts)
           fehler = 0
           for p in dateien:
               try:
-                  py_compile.compile(str(p), doraise=True, cfile='/dev/null')
+                  compile(p.read_text(encoding='utf-8'), str(p), 'exec')
                   print('ok  ', p)
-              except py_compile.PyCompileError as e:
-                  print(f'::error file={p}::{e.msg}')
+              except SyntaxError as e:
+                  print(f'::error file={p},line={e.lineno}::{e.msg}')
                   fehler += 1
           print(f'{len(dateien)} Dateien geprueft')
           sys.exit(1 if fehler else 0)
           EOF
       - name: Data-Tables pruefen
         run: python Unreal/Tools/pruefe_daten.py
+
+  blender:
+    runs-on: windows-latest
+    env:
+      MB_BLENDER_VERSION: '5.2.2'
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          lfs: false
+      - name: Blender laden
+        shell: pwsh
+        run: |
+          $ProgressPreference = 'SilentlyContinue'
+          $kurz = ($env:MB_BLENDER_VERSION -split '\.')[0..1] -join '.'
+          $url = "https://download.blender.org/release/Blender$kurz/blender-$($env:MB_BLENDER_VERSION)-windows-x64.zip"
+          $zip = Join-Path $env:RUNNER_TEMP 'blender.zip'
+          Write-Host "Lade $url"
+          Invoke-WebRequest -Uri $url -OutFile $zip
+          $ziel = Join-Path $env:RUNNER_TEMP 'blender'
+          7z x $zip "-o$ziel" -y | Out-Null
+          $exe = Get-ChildItem -Path $ziel -Recurse -Filter 'blender.exe' | Select-Object -First 1
+          if ($null -eq $exe) { Write-Host '::error::blender.exe nicht gefunden'; exit 1 }
+          & $exe.FullName --factory-startup --version
+          "MB_BLENDER=$($exe.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Blender-Skripte ueber Tools/assets.ps1 -NurBlender (Windows PowerShell 5.1)
+        shell: powershell
+        env:
+          MB_ENGINE: CYCLES
+          MB_SAMPLES: '16'
+          MB_AUFLOESUNG: '512'
+        run: |
+          powershell -NoProfile -ExecutionPolicy Bypass -File Unreal\Tools\assets.ps1 -NurBlender
+          exit $LASTEXITCODE
+      - name: Ergebnisse pruefen
+        shell: pwsh
+        run: |
+          $fehler = 0
+          foreach ($meta in Get-ChildItem -Path Unreal/SourceAssets/_erzeugt -Recurse -Filter '*.meta.json') {
+            $m = Get-Content -LiteralPath $meta.FullName -Raw | ConvertFrom-Json
+            $fbx = Join-Path $meta.DirectoryName $m.datei
+            $ok = Test-Path -LiteralPath $fbx
+            Write-Host ("{0,-28} {1,-10} {2,-40} FBX vorhanden: {3}" -f $m.name, $m.typ, $m.ziel, $ok)
+            if (-not $ok) { $fehler++ }
+          }
+          $bilder = @(Get-ChildItem -Path Unreal/SourceAssets/_vorschau -Filter '*.png' -ErrorAction SilentlyContinue)
+          Write-Host ("{0} Vorschaubilder" -f $bilder.Count)
+          if ($bilder.Count -eq 0) { $fehler++ }
+          if ($fehler -gt 0) { exit 1 }
+      - name: Ergebnisse hochladen
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blender-ergebnisse
+          if-no-files-found: warn
+          path: |
+            Unreal/SourceAssets/_vorschau/
+            Unreal/SourceAssets/_erzeugt/
+            Unreal/Saved/Werkzeuge/

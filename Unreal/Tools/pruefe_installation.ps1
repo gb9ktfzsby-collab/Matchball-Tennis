@@ -190,7 +190,9 @@ try {
         $alle = Invoke-MBBefehlAusgabe -Datei $vswhere -Argumente @('-all', '-products', '*', '-format', 'json', '-utf8')
         $instanzen = @()
         if ($alle.ExitCode -eq 0 -and $alle.Standard.Trim() -ne '') {
-            try { $instanzen = @($alle.Standard | ConvertFrom-Json) } catch { $instanzen = @() }
+            # Erst einer Variablen zuweisen: Windows PowerShell 5.1 gibt ein JSON-Array als EIN Objekt aus,
+            # @(... | ConvertFrom-Json) waere dort ein Array mit dem ganzen Array als einzigem Element.
+            try { $roh = $alle.Standard | ConvertFrom-Json; $instanzen = @($roh) } catch { $instanzen = @() }
         }
         $mitSpiel = @{}
         $mitMsvc = @{}
