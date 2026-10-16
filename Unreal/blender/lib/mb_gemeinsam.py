@@ -182,8 +182,11 @@ def roh_argumente():
         eigene = []
     zusatz = _env_text("MB_ARGS")
     if zusatz:
-        # Umgebung zuerst, damit die Befehlszeile gewinnt (argparse nimmt den letzten Wert)
-        eigene = shlex.split(zusatz, posix=(os.name != "nt")) + eigene
+        # Umgebung zuerst, damit die Befehlszeile gewinnt (argparse nimmt den letzten Wert).
+        # Unter Windows (posix=False) bleiben Anfuehrungszeichen am Wort - die werden hier entfernt.
+        woerter = shlex.split(zusatz, posix=(os.name != "nt"))
+        woerter = [w[1:-1] if len(w) >= 2 and w[0] == w[-1] and w[0] in "\"'" else w for w in woerter]
+        eigene = woerter + eigene
     return eigene
 
 
@@ -237,7 +240,7 @@ def szene_leeren():
     for coll in list(bpy.data.collections):
         bpy.data.collections.remove(coll)
     sammlungen = ("meshes", "armatures", "materials", "actions", "cameras", "lights", "curves", "node_groups",
-                  "textures", "worlds", "shape_keys", "grease_pencils", "lattices", "metaballs", "fonts")
+                  "textures", "worlds", "grease_pencils", "lattices", "metaballs", "fonts")
     for name in sammlungen:
         daten = getattr(bpy.data, name, None)
         if daten is None:
@@ -245,7 +248,7 @@ def szene_leeren():
         for block in list(daten):
             try:
                 daten.remove(block)
-            except (RuntimeError, ReferenceError, TypeError):
+            except (RuntimeError, ReferenceError, TypeError, AttributeError):
                 pass
     for bild in list(bpy.data.images):
         if bild.type not in {'RENDER_RESULT', 'COMPOSITING'}:
@@ -729,7 +732,7 @@ def _zentimeter_kopien(objekte):
                     bpy.data.meshes.remove(daten)
                 elif isinstance(daten, bpy.types.Armature):
                     bpy.data.armatures.remove(daten)
-        for obj, name in umbenannt:
+        for obj, name in reversed(umbenannt):
             obj.name = name
 
 
@@ -816,16 +819,21 @@ def meta_schreiben(ordner, asset, typ, quelle, lizenz, unreal_ziel, parameter=No
     if typ not in ("static", "skeletal", "animation"):
         raise ValueError("unbekannter Typ %r" % typ)
     skript = Path(sys.argv[0]).resolve() if modul_modus() else _aufrufendes_skript()
+    dateien = dateien or {}
     daten = {
-        "asset": asset,
+        # Kurzform (von CI und Import gelesen): name, typ, ziel, datei (Haupt-FBX relativ zur meta.json)
+        "name": asset,
         "typ": typ,
+        "ziel": unreal_ziel.rstrip("/"),
+        "datei": dateien.get("fbx"),
+        "asset": asset,
         "quelle": quelle,
         "lizenz": lizenz,
         "datum": datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat(),
         "skript": repo_relativ(skript) if skript else None,
         "blender": bpy.app.version_string,
         "parameter": parameter or {},
-        "dateien": dateien or {},
+        "dateien": dateien,
         "unreal_ziel": unreal_ziel.rstrip("/"),
         "unreal_objekt": "%s/%s.%s" % (unreal_ziel.rstrip("/"), asset, asset),
         "achsen": ACHSEN_KURZ,

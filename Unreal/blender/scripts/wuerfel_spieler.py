@@ -316,10 +316,14 @@ def bereitschaft_pose(arm, t, dauer, H):
         d2 = (ua.bone.tail_local - ua.bone.head_local).normalized()
         beugen_oa = d1.cross(VORNE)  # positive Drehung bringt den Arm nach vorn
         beugen_ua = d2.cross(VORNE)
+        # Zielwerte unabhängig von der Ruhepose (A oder T): Oberarm 67 Grad unter der Waagerechten,
+        # Ellbogen insgesamt 65 Grad gebeugt, Oberarm 30 Grad nach vorn.
+        ruhe_senkung = math.degrees(math.asin(max(-1.0, min(1.0, -d1.z))))
+        ruhe_beuge = math.degrees(d1.angle(d2))
         phase = 0.6 if seite == "l" else 0.6 + math.pi
         oa.rotation_quaternion = (_drehung(oa, beugen_oa, 30.0 + 4.0 * math.sin(w + phase))
-                                  @ _drehung(oa, VORNE, -s * 22.0))
-        ua.rotation_quaternion = _drehung(ua, beugen_ua, 50.0 + 3.0 * math.sin(w + phase + 0.6))
+                                  @ _drehung(oa, VORNE, -s * (67.0 - ruhe_senkung)))
+        ua.rotation_quaternion = _drehung(ua, beugen_ua, (65.0 - ruhe_beuge) + 3.0 * math.sin(w + phase + 0.6))
 
 
 def bein_ik_einrichten(arm, H, dauer):

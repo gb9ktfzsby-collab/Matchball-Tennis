@@ -35,7 +35,6 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
 import mb_gemeinsam as mb  # noqa: E402
 
-import bpy  # noqa: E402
 import bmesh  # noqa: E402
 import numpy as np  # noqa: E402  (in Blender enthalten)
 from mathutils import Vector  # noqa: E402
