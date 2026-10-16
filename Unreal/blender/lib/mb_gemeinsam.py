@@ -176,7 +176,7 @@ def roh_argumente():
     argv = list(sys.argv)
     if "--" in argv:
         eigene = argv[argv.index("--") + 1:]
-    elif modul_modus() and argv and argv[0] not in ("-c", "-m", ""):
+    elif modul_modus() and argv and argv[0].lower().endswith(".py"):
         eigene = argv[1:]
     else:
         eigene = []
