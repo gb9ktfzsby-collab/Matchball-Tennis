@@ -1,4 +1,4 @@
-Name,Turnier,Stadt,Land,Woche,Wochen,Datum,Stufe,Wertung,Belag,Halle,Feld,Qualifikation,Gesetzte,Anlage,Preisgeld_USD,Tageszeit_Nacht,CourtPace,Belagfarbe,Auslauffarbe,Akzentfarbe
+Name,Turnier,Stadt,Land,Woche,Wochen,Datum,Stufe,Wertung,Belag,bHalle,Feld,Qualifikation,Gesetzte,Anlage,Preisgeld_USD,bNachtsession,CourtPace,Belagfarbe,Auslauffarbe,Akzentfarbe
 ATP_Brisbane,Brisbane International,Brisbane,AUS,2,1,2026-01-04,ATP250,ATP_250_32,Hart,False,32,16,8,Arena,576000,True,42,#2B6FB8,#1D4E86,#F2A900
 ATP_HongKong,Hong Kong Tennis Open,Hongkong,HKG,2,1,2026-01-05,ATP250,ATP_250_28,Hart,False,28,16,8,Arena,546000,True,41,#2F64A8,#3B7A4F,#C8102E
 ATP_Adelaide,Adelaide International,Adelaide,AUS,3,1,2026-01-12,ATP250,ATP_250_28,Hart,False,28,16,8,Arena,546000,True,41,#2B6FB8,#3B7A55,#D7263D

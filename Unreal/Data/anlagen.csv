@@ -1,4 +1,4 @@
-Name,Anlage,Variante,Anzeigename,Einsatz,Belag,Belagfarbe,Auslauffarbe,Tribuenenart,Tribuenenfarbe,Reihen,Seiten,Dach,Publikum_Min,Publikum_Max,Anzeigetafel,Baeume,Fahnen,Efeu,Flutlicht,Zaun,Bandenfarbe,Auslauf_Hinten,Auslauf_Seite,Chunk,CourtPace
+Name,Anlage,Variante,Anzeigename,Einsatz,Belag,Belagfarbe,Auslauffarbe,Tribuenenart,Tribuenenfarbe,Reihen,Seiten,Dach,Publikum_Min,Publikum_Max,Anzeigetafel,bBaeume,bFahnen,bEfeu,bFlutlicht,bZaun,Bandenfarbe,Auslauf_Hinten,Auslauf_Seite,Chunk,CourtPace
 Arena_ITF,Arena,ITF,Arena - Außenplatz,ITF;Quali,Hart,#3C7A4A,#8C3B2E,Stahlrohr,#7A8088,3,1,Keins,0,200,Kipptafel,False,False,False,False,True,#1F3A5F,6.40,3.66,10,40
 Arena_Challenger,Arena,Challenger,Arena - Nebenplatz,Challenger;WTA125;TourFrueh,Hart,#2F64A8,#2F6B45,Stahlrohr,#2A5DA8,10,2,Keins,500,3000,Elektronisch,False,False,False,True,False,#1F3A5F,6.40,3.66,10,40
 Arena_Tour,Arena,Tour,Arena - Hauptplatz,TourSpaet,Hart,#1F4E8C,#2F6B45,Schalensitze,#1F5AA6,25,4,Teil,5000,15000,Videowand,False,False,False,True,False,#13294B,8.23,4.57,10,40

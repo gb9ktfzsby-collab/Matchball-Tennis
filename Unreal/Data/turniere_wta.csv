@@ -1,4 +1,4 @@
-Name,Turnier,Stadt,Land,Woche,Wochen,Datum,Stufe,Wertung,Belag,Halle,Feld,Qualifikation,Gesetzte,Anlage,Preisgeld_USD,Tageszeit_Nacht,CourtPace,Belagfarbe,Auslauffarbe,Akzentfarbe
+Name,Turnier,Stadt,Land,Woche,Wochen,Datum,Stufe,Wertung,Belag,bHalle,Feld,Qualifikation,Gesetzte,Anlage,Preisgeld_USD,bNachtsession,CourtPace,Belagfarbe,Auslauffarbe,Akzentfarbe
 WTA_Brisbane,Brisbane International,Brisbane,AUS,2,1,2026-01-04,WTA500,WTA_500_48,Hart,False,48,24,16,Arena,1070000,True,42,#2B6FB8,#1D4E86,#F2A900
 WTA_Auckland,Auckland Open,Auckland,NZL,2,1,2026-01-05,WTA250,WTA_250_32,Hart,False,32,24,8,Arena,221000,False,40,#2F64A8,#2F6B45,#1D3557
 WTA_Adelaide,Adelaide International,Adelaide,AUS,3,1,2026-01-11,WTA500,WTA_500_28,Hart,False,28,24,8,Arena,750000,True,41,#2B6FB8,#3B7A55,#D7263D
