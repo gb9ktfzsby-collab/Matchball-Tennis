@@ -151,3 +151,35 @@ aus `%LocalAppData%\MatchballTennis\Saved\`. Umsetzung in M6: eigenes Speichern 
 Unreal erzeugt `MatchballTennis.exe` (Startprogramm) und `MatchballTennis\Binaries\Win64\MatchballTennis-Win64-Shipping.exe`.
 `package.ps1` benennt das Startprogramm in **„Matchball Tennis.exe"** um (das Startprogramm findet die
 eigentliche .exe über einen eingebetteten Pfad, der Name ist frei) **[PRÜFEN]** beim ersten Packen.
+
+### B16. Ball-Verformung „gestaucht" in Unreal ⏳ M3
+README 3.4 verlangt einen Formschlüssel „gestaucht" für 1–2 Frames beim Schläger- und Bodenkontakt. Unreal-**Static**-Meshes
+haben keine Morph Targets. Der Formschlüssel in `ball.py` ist deshalb bewusst eine reine Ellipsoid-Verformung
+(senkrecht × 0,70, quer × 1,195, Volumen gleich) – im Spiel entsteht genau diese Form, indem `AMBBall` die Kugel
+für 1–2 Frames entlang der Stoßnormalen so skaliert. Kein Skeletal Mesh für den Ball nötig.
+
+### B17. Schlägermaße ❓
+Dein Modell wird gleichmäßig auf **68,58 cm** (27 Zoll) skaliert; der Kopf ist dann außen **27,1 cm** breit
+(Seitenverhältnis deines Modells). Passt das, oder soll eine andere Länge gelten (`schlaeger.py --laenge`)?
+
+### B18. Saitenbett als Alpha-Material ✅
+README 3.4: Die Saiten deines Modells (rund 1 350 Einzelteile) werden auf eine Saitenfläche mit Alpha-Textur gebacken
+– das Logo auf den Saiten bleibt dabei erhalten (README 22.3). Der Platzhalter-Schläger ist gleich aufgebaut.
+
+### B19. Build-Id und `installiert.json` ✅ (bitte bestätigen)
+* Die Build-Id (README 15.3) entsteht aus den Prüfsummen aller `.pak`/`.utoc`/`.ucas`/`.exe` **außer** dem Updater –
+  ein neuer Updater macht also keine „andere Spielversion“.
+* `installiert.json` ist ein Objekt `{version, build, datum, dateien: [{pfad, groesse, sha256}]}`; es enthält
+  `build.json`, aber nicht sich selbst. Der Updater (M10) liest dieses Format.
+
+### B20. Ablage der Schiedsrichter-Stimme ✅ (bitte bestätigen)
+Die von ElevenLabs erzeugten WAV-Bausteine liegen in `Unreal/SourceAssets/Audio/Umpire/` und werden (über Git LFS)
+versioniert – sie müssen auf dem zweiten PC nicht neu erzeugt werden (spart ElevenLabs-Zeichen). Namens-Bausteine heißen
+`name_<nachname>.wav` (Umlaute als ae/oe/ue/ss, Akzente entfernt, klein, z. B. Hruška → `name_hruska`); die Wiedergabe im
+Spiel benutzt dieselbe Regel. Den Schlüssel fragt das Skript verdeckt ab; nur wenn die Eingabe umgeleitet ist
+(z. B. aus einem Passwort-Manager), liest es ihn aus der ersten Zeile – gespeichert oder angezeigt wird er nie.
+
+### B21. Ausrichtung der Figuren ✅ (vor M2 bitte bestätigen)
+Figuren werden in Blender mit Blick nach **+X** gebaut und schauen in Unreal ohne Zusatzdrehung nach +X (das Epic-Mannequin
+schaut nach +Y und braucht −90°). Knochen folgen der Blender-Konvention (in Unreal entlang lokal −Y statt X wie beim
+Mannequin). IK Retargeter und Control Rig kommen damit zurecht; der Animationscode verlässt sich nicht auf Mannequin-Achsen.
