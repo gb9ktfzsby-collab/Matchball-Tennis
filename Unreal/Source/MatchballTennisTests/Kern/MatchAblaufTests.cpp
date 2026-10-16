@@ -4,6 +4,7 @@
 #include "Kern/MBTestRahmen.h"
 
 #include "Match/Kern/MBMatchAblauf.h"
+#include "Physics/Kern/MBSchlagberechnung.h"
 
 #include <algorithm>
 
@@ -395,4 +396,73 @@ MB_TEST(AnsagenTiebreakUndSatz, "Ansagen.TiebreakSatzMatch")
 	}
 	MB_PRUEFE(Folge.bMatchGewonnen);
 	MB_PRUEFE(AnsageNachPunkt(Z, Folge).Bausteine == (std::vector<std::string>{"game_set_and_match", "@0", ",", "n7", "games_to", "n6"}));
+}
+
+namespace
+{
+	// Spielt einen Aufschlag mit echter Physik durch: Schlagberechnung -> Simulation -> Ablauf
+	void MBAblaufTest_AufschlagMitPhysik(FMatchAblauf& Ablauf, const FBallSimulation& Vorlage, double ZielTiefeVomNetz, int MaxSchritte = 2400)
+	{
+		MBAblaufTest_Warte(Ablauf, EMatchZustand::Aufschlagvorbereitung);
+		const FZaehlweise& Stand = Ablauf.GetStand();
+		const int Aufschlaeger = Stand.GetAufschlaeger();
+		const EPlatzseite Seite = Stand.GetSeite(Aufschlaeger);
+		const FPlatz Platz;
+		const FFeld Feld = Platz.Aufschlagfeld(Seite, Stand.GetAufschlagHaelfte());
+		const double Vor = SeitenVorzeichen(Gegenseite(Seite));
+		FVek3 Treffpunkt = Platz.AufschlagPosition(Seite, Stand.GetAufschlagHaelfte());
+		Treffpunkt.Z = 2.75;
+		FSchlagAnfrage Anfrage;
+		Anfrage.Treffpunkt = Treffpunkt;
+		Anfrage.ZielX = 0.5 * (Feld.MinX + Feld.MaxX);
+		Anfrage.ZielY = Vor * ZielTiefeVomNetz;
+		Anfrage.Tempo = KmhZuMs(190.0);
+		Anfrage.MinTempo = KmhZuMs(150.0);
+		Anfrage.Topspin = UpmZuRadS(900.0);
+		Anfrage.MinNetzAbstand = 0.05;
+		const FSchlagErgebnis Schlag = BerechneSchlag(Vorlage, Anfrage);
+		FBallSimulation Simulation = Vorlage;
+		Simulation.Starte(Schlag.Abflug);
+		Ablauf.AufschlagGeschlagen();
+		for (int Index = 0; Index < MaxSchritte && (Ablauf.GetZustand() == EMatchZustand::Aufschlag || Ablauf.GetZustand() == EMatchZustand::Ballwechsel); ++Index)
+		{
+			Simulation.Schritt();
+			for (const FBallEreignis& Ereignis : Simulation.GetEreignisse())
+			{
+				Ablauf.BallEreignis(Ereignis);
+			}
+			Simulation.LeereEreignisse();
+			Ablauf.Fortschreiten(Simulation.GetZeitschritt());
+		}
+	}
+}
+
+MB_TEST(AblaufMitPhysik, "Ablauf.AufschlagMitEchterPhysik")
+{
+	FMatchEinstellungen Einstellungen = MBAblaufTest_Einstellungen();
+	Einstellungen.Linienrichter.bElektronisch = true;   // ohne Zufall: Ergebnis = Hawk-Eye-Wahrheit
+	FMatchAblauf Ablauf(Einstellungen);
+	const FBallSimulation Vorlage = MBTest::Simulation("Hart");
+
+	// 1. Aufschlag sauber ins Feld, niemand schlaegt zurueck -> Ass (Ball springt zweimal auf)
+	MBAblaufTest_AufschlagMitPhysik(Ablauf, Vorlage, 5.0);
+	MB_PRUEFE(Ablauf.GetAusgang().Art == EAusgangArt::Punkt);
+	MB_PRUEFE(Ablauf.GetAusgang().Grund == EPunktGrund::Ass);
+	MB_PRUEFE_GLEICH(Ablauf.GetAusgang().Punktgewinner, Ablauf.GetAufschlaeger());
+	MBAblaufTest_Warte(Ablauf, EMatchZustand::ZwischenDenPunkten);
+	MB_PRUEFE_GLEICH(Ablauf.GetStand().GetPunkte(0), 1);
+
+	// 2. Aufschlag 1,5 m hinter die Aufschlaglinie -> Fehler, zweiter Aufschlag
+	MBAblaufTest_AufschlagMitPhysik(Ablauf, Vorlage, Platzmass::AufschlaglinieVomNetz + 1.5);
+	MB_PRUEFE(Ablauf.GetAusgang().Art == EAusgangArt::Fehler);
+	MBAblaufTest_Warte(Ablauf, EMatchZustand::Aufschlagvorbereitung);
+	MB_PRUEFE(Ablauf.IstZweiterAufschlag());
+
+	// 3. Zweiter Aufschlag ebenfalls lang -> Doppelfehler, Punkt fuer den Rueckschlaeger
+	MBAblaufTest_AufschlagMitPhysik(Ablauf, Vorlage, Platzmass::AufschlaglinieVomNetz + 1.5);
+	MB_PRUEFE(Ablauf.GetAusgang().Grund == EPunktGrund::Doppelfehler);
+	MB_PRUEFE_GLEICH(Ablauf.GetAusgang().Punktgewinner, 1);
+	MBAblaufTest_Warte(Ablauf, EMatchZustand::ZwischenDenPunkten);
+	MB_PRUEFE_GLEICH(Ablauf.GetStand().GetPunkte(1), 1);
+	MB_PRUEFE(Ablauf.GetAufschlagNummer() >= 3u);
 }
