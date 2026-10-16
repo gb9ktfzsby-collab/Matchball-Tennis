@@ -1,0 +1,8 @@
+; Vorlage fuer die NICHT versionierte Datei Config/Windows/WindowsEngine.ini (README 0.0a, 15.2)
+; Kopieren nach "WindowsEngine.ini" und die Werte aus dem Epic Developer Portal eintragen.
+; Die echte Datei steht in .gitignore und wird nie committet.
+; Wird erst mit Meilenstein M9 (Online) benoetigt.
+
+[/Script/OnlineSubsystemEOS.EOSSettings]
++Artifacts=(ArtifactName="MatchballTennis",ClientId="<CLIENT_ID>",ClientSecret="<CLIENT_SECRET>",ProductId="<PRODUCT_ID>",SandboxId="<SANDBOX_ID>",DeploymentId="<DEPLOYMENT_ID>",EncryptionKey="<64_HEX_ZEICHEN>")
+DefaultArtifactName=MatchballTennis

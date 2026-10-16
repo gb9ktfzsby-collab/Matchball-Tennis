@@ -197,3 +197,63 @@ MB_TEST(SchlagDrallRichtung, "Schlag.DrallRichtung")
 	const FVek3 Oben = Kreuzprodukt(Drall, FVek3(0.0, 0.0, 0.0335));
 	MB_PRUEFE(Oben.Y > 0.0);
 }
+
+MB_TEST(SchlagDatenSchlagarten, "Schlag.SchlagartenAusDatenErreichbar")
+{
+	// Jede Schlagart aus Data/schlagarten.csv muss von einer typischen Treffposition aus ihr
+	// Standardziel erreichen - bei Spielerwert 50 und 99, normal und mit Power.
+	const std::vector<MBTest::FZeile> Zeilen = MBTest::LiesCsv("schlagarten.csv");
+	MB_PRUEFE(Zeilen.size() >= 11u);
+	const FBallSimulation Simulation = MBTest::Simulation("Hart");
+	for (const MBTest::FZeile& Zeile : Zeilen)
+	{
+		const std::string Name = MBTest::Text(Zeile, "Name");
+		const bool bAufschlag = Name.rfind("Aufschlag", 0) == 0;
+		FVek3 Treffpunkt(0.8, -12.0, 0.95);
+		double ZielX = -1.5;
+		if (bAufschlag)
+		{
+			Treffpunkt = FVek3(0.6, -12.0, 2.75);
+			ZielX = -2.0;
+		}
+		else if (Name == "Volley")
+		{
+			Treffpunkt = FVek3(0.5, -2.5, 1.0);
+		}
+		else if (Name == "Halbvolley")
+		{
+			Treffpunkt = FVek3(0.5, -6.0, 0.25);
+		}
+		else if (Name == "Schmetterball")
+		{
+			Treffpunkt = FVek3(0.5, -4.0, 2.6);
+		}
+		else if (Name == "Stopp")
+		{
+			Treffpunkt = FVek3(0.5, -8.0, 0.9);
+		}
+		for (int Variante = 0; Variante < 3; ++Variante)
+		{
+			const double Wert = Variante == 0 ? 50.0 : 99.0;
+			const bool bPower = Variante == 2;
+			const double Tempo = MBTest::Zahl(Zeile, "TempoBeiWert50") + (MBTest::Zahl(Zeile, "TempoBeiWert99") - MBTest::Zahl(Zeile, "TempoBeiWert50")) * (Wert - 50.0) / 49.0;
+			FSchlagAnfrage Anfrage;
+			Anfrage.Treffpunkt = Treffpunkt;
+			Anfrage.ZielX = ZielX;
+			Anfrage.ZielY = MBTest::Zahl(Zeile, "ZielTiefe");
+			Anfrage.Tempo = KmhZuMs(Tempo * (bPower ? MBTest::Zahl(Zeile, "PowerTempoFaktor") : 1.0));
+			Anfrage.MinTempo = Anfrage.Tempo * 0.5;
+			Anfrage.Topspin = UpmZuRadS(MBTest::Zahl(Zeile, "DrallUpm"));
+			Anfrage.Seitendrall = UpmZuRadS(MBTest::Zahl(Zeile, "SeitendrallUpm"));
+			Anfrage.bHoherBogen = MBTest::Text(Zeile, "bHoherBogen") == "True";
+			Anfrage.MinNetzAbstand = MBTest::Zahl(Zeile, "MinNetzAbstand");
+			const FSchlagErgebnis Ergebnis = BerechneSchlag(Simulation, Anfrage);
+			const bool bOk = Ergebnis.bZielErreicht && Ergebnis.bNetzFrei;
+			if (!bOk || Variante == 1)
+			{
+				MB_INFO("%-15s Wert %2.0f%s: %s, Tempo %.0f km/h (gewuenscht %.0f), Netz +%.2f m, Flugzeit %.2f s", Name.c_str(), Wert, bPower ? " Power" : "      ", bOk ? "ok" : "NICHT ERREICHT", MsZuKmh(Ergebnis.TatsaechlichesTempo), MsZuKmh(Anfrage.Tempo), Ergebnis.NetzAbstand, Ergebnis.Flugzeit);
+			}
+			MB_PRUEFE(bOk);
+		}
+	}
+}

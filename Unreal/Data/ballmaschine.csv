@@ -1,0 +1,9 @@
+Name,Anzeigename,Tempo_kmh,Drall_upm,Hoehe,Position,ZielTiefe,Takt_s,bHoherBogen
+Grundschlag,Grundschlag (abwechselnd),80,1500,1.0,Abwechselnd,8.5,3.0,False
+Vorhand,Nur Vorhand,85,1800,1.0,Vorhand,9.0,2.8,False
+Rueckhand,Nur Rueckhand,85,1800,1.0,Rueckhand,9.0,2.8,False
+Topspin,Schwerer Topspin,95,3000,1.0,Zufall,9.5,3.0,False
+Slice,Slice-Baelle,70,-1500,1.0,Zufall,8.0,3.0,False
+Lob,Lobs (Schmetterball),55,-500,1.0,Zufall,9.0,4.0,True
+Volley,Volley am Netz,70,500,1.0,Abwechselnd,7.0,2.5,False
+Profi,Profi-Tempo,115,2800,1.1,Zufall,10.0,2.4,False

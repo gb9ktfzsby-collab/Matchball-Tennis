@@ -1,0 +1,34 @@
+# Matchball Tennis - Kern-Tests bei jedem Push (reines C++, ohne Unreal)
+#
+# Prueft die Spiellogik (Ballphysik, Zaehlweise, Hawk-Eye, Challenge, Ablauf, Karriere) mit GCC und MSVC.
+# Die Unreal-Automation-Tests laufen lokal ueber Unreal/Tools/test.ps1 (Unreal ist auf GitHub-Runnern nicht verfuegbar).
+
+name: Kern-Tests
+
+on:
+  push:
+    paths:
+      - 'Unreal/Source/**'
+      - 'Unreal/Data/**'
+      - 'Unreal/Tools/KernTests/**'
+      - '.github/workflows/kern-tests.yml'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  kern-tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - name: Konfigurieren
+        run: cmake -S Unreal/Tools/KernTests -B Unreal/Tools/KernTests/build-ci -DCMAKE_BUILD_TYPE=Release
+      - name: Bauen
+        run: cmake --build Unreal/Tools/KernTests/build-ci --config Release
+      - name: Testen
+        run: ctest --test-dir Unreal/Tools/KernTests/build-ci -C Release --output-on-failure

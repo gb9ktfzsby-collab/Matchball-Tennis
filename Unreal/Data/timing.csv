@@ -1,0 +1,2 @@
+Name,GruenHalbfenster_ms,GelbHalbfenster_ms,Grundstreuung,SeitlichProSekunde,LaengenStreuung,LaengeProSekunde,PowerFenster,PowerStreuung,PraezisionFenster,PraezisionStreuung,FensterBeiWert50,FensterBeiWert99,StreuungBeiWert50,StreuungBeiWert99,VolleyFensterFaktor,HalbvolleyFensterFaktor
+Standard,30,75,0.20,22.0,0.30,6.0,0.70,1.45,1.35,0.65,0.85,1.20,1.40,0.70,1.30,0.70
